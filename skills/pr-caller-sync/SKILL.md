@@ -1,37 +1,42 @@
 ---
 name: pr-caller-sync
-description: Use when the pr-auto-approve reusable workflow in SteerSpec/strspc-pr-review changes and caller repos need to be updated. Triggered by: adding/removing event triggers, changing job conditions, updating permissions, or any other structural change that callers must mirror.
+description: Use when the pr-auto-approve action in SteerSpec/strspc-pr-review changes and caller repos need to be updated. Triggered by: adding/removing event triggers, changing job conditions, updating permissions, or any other structural change that callers must mirror.
 ---
 
 # PR Auto-Approve Caller Sync
 
-**Goal:** After changing the `pr-auto-approve` reusable workflow in `strspc-pr-review`, find all caller repos and open PRs with the matching updates.
+**Goal:** After changing the `pr-auto-approve` action in `strspc-pr-review`, find all caller repos and open PRs with the matching updates.
 
 ## The Problem
 
-`strspc-pr-review` hosts the reusable workflow `.github/workflows/pr-auto-approve.yml`.
-Caller repos have their own thin wrapper that invokes it via `uses:`.
+`strspc-pr-review` hosts the composite action (`action.yml`) and the reusable workflow `.github/workflows/pr-auto-approve.yml` (deprecated).
+Caller repos have their own workflow that invokes the action via `uses: SteerSpec/strspc-pr-review@vX.Y.Z`.
 
-When the reusable workflow gains a **new trigger** or changes its **job `if:` condition**, callers must be updated too — otherwise they never forward the new event to the reusable workflow.
+When the action gains a **new trigger** or changes its **job `if:` condition**, callers must be updated too — otherwise they never forward the new event to the action.
 
-The reusable workflow's job condition is defense-in-depth (it duplicates the caller's guard). Both must be kept in sync.
+The caller workflow's job condition is defense-in-depth. Both must be kept in sync.
 
 ## 1. Identify what changed
 
 ```bash
-git diff main -- .github/workflows/pr-auto-approve.yml
+git diff main -- action.yml
 ```
 
 Look for changes to:
-- `on:` trigger section (new event types added or removed)
-- Job `if:` condition (new branches allowing additional event types)
-- `concurrency.group` (new context fields used as fallback keys)
-- `permissions:` (new scopes required)
+- Inputs added or removed
+- Logic changes that require new event types in the caller `on:` section
+- Job condition changes (the caller owns concurrency and `if:` guards)
+
+Also check the caller template for the current recommended pattern:
+
+```bash
+cat templates/pr-auto-approve.yml
+```
 
 ## 2. Find all caller repos
 
 ```bash
-gh search code "uses: SteerSpec/strspc-pr-review/.github/workflows/pr-auto-approve.yml" \
+gh search code "uses: SteerSpec/strspc-pr-review" \
   --json repository,path
 ```
 
@@ -39,16 +44,16 @@ Each result is a caller. Note the repo name and file path.
 
 ## 3. Determine the caller diff
 
-For each trigger or condition change in the reusable workflow, the caller needs:
+| Action change | Caller must update |
+|---|---|
+| New event type needed (e.g. `check_run`) | Add to `on:` section |
+| New job `if:` condition branch | Add matching `||` branch |
+| New `concurrency.group` fallback | Update the group expression |
+| New input available | Optionally wire it up |
 
-| Reusable workflow change | Caller must add |
-|--------------------------|-----------------|
-| New `on:` event (e.g. `check_run`) | Same event under `on:` |
-| Wider job `if:` condition | Same `\|\|` branch in its own `if:` |
-| New `concurrency.group` fallback | Same expression update |
-| New `permissions:` scope | Same scope in caller `permissions:` |
-
-**Self-exclusion pattern**: if the reusable workflow excludes its own job name to prevent feedback loops (e.g. `github.event.check_run.name != 'Auto-approve if Copilot conditions met'`), copy the exact same exclusion into the caller condition.
+**Self-exclusion pattern**: callers use `github.event.check_run.name != '<job-name>'` to prevent
+feedback loops. The job name in the template is `auto-approve` — if callers rename their job,
+they must update this filter to match.
 
 ## 4. Open PRs in each caller repo
 
@@ -78,7 +83,7 @@ gh pr create --repo <owner>/<caller-repo> \
 ```markdown
 ## Why
 
-SteerSpec/strspc-pr-review#<PR> changed the reusable pr-auto-approve workflow.
+SteerSpec/strspc-pr-review#<PR> changed the pr-auto-approve action.
 This caller must mirror those changes so the new event types are forwarded correctly.
 
 ## What changed
@@ -94,9 +99,9 @@ This caller must mirror those changes so the new event types are forwarded corre
 ## Common Mistakes
 
 | Mistake | Fix |
-|---------|-----|
-| Updating reusable workflow but forgetting callers | Always search for `uses:` references before closing the strspc-pr-review PR |
+|---|---|
+| Updating the action but forgetting callers | Always search for `uses: SteerSpec/strspc-pr-review` references before closing the PR |
 | Copying the trigger but not the job condition | Both must be updated — the trigger fires the job, the condition gates it |
-| Missing the self-exclusion filter | Copy it verbatim from the reusable workflow `if:` |
+| Missing the self-exclusion filter | Callers must exclude their own job name from `check_run` events |
 | Using a token without `workflow` scope | `gh auth refresh -s workflow` before pushing |
 | Merging strspc-pr-review before callers | Callers first (or simultaneous) so no events drop in the window |
