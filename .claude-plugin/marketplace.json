@@ -1,12 +1,14 @@
 {
   "name": "steerspec",
   "description": "SteerSpec shared Claude Code skills",
-  "owner": { "name": "SteerSpec" },
+  "owner": {
+    "name": "SteerSpec"
+  },
   "plugins": [
     {
       "name": "strspc-pr-review",
       "description": "Skills for the pr-auto-approve reusable workflow",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "source": "./"
     }
   ]

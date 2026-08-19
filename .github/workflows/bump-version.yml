@@ -1,0 +1,128 @@
+name: Bump plugin version
+
+# Why this exists:
+# Claude Code caches an installed plugin under its declared `version` string
+# (observed: cache/steerspec/strspc-pr-review/1.0.0/). If the version never
+# changes, clients keep serving the cached copy and new agents or skills never
+# reach them. This repo sat at 1.0.0 from June while its contents changed —
+# silently shipping to nobody. Bumping on every PR makes that impossible.
+#
+# Two implementation choices are load-bearing; please read before changing them.
+#
+# 1. The commit is made with the GraphQL createCommitOnBranch mutation, NOT
+#    `git push`. main is covered by a `required_signatures` rule, and GitHub
+#    signs commits authored through that API automatically ("Commits authored
+#    using the new API are automatically GPG signed"). This avoids managing a
+#    GPG key and its rotation entirely. Note the REST Contents API does NOT
+#    sign — that one produces verified:false.
+#
+# 2. It authenticates with BOT_TOKEN (a PAT), NOT GITHUB_TOKEN. Events created
+#    by GITHUB_TOKEN never start a workflow run, so a bump pushed with it would
+#    leave the new head SHA with no checks — and auto-approve refuses to approve
+#    a PR with no checks ("no checks on head SHA yet"). The PR would deadlock on
+#    the very gate this repo now enforces. A PAT-authored commit re-triggers CI.
+
+on:
+  # pull_request_target, not pull_request: this workflow carries BOT_TOKEN, and
+  # `pull_request` would run the definition from the PR's head commit, letting
+  # anyone who can push a branch rewrite it and exfiltrate the token. This
+  # workflow never checks out PR content — it reads one JSON file through the
+  # API — which is what keeps pull_request_target safe here.
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  # One bump in flight per PR. Do NOT cancel in progress: a cancelled run
+  # between computing and committing just wastes a version number, but a
+  # cancelled run mid-commit is harder to reason about.
+  group: bump-version-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    # Forks can't receive the commit and shouldn't see a write-capable token.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Compute and commit the new version
+        env:
+          GH_TOKEN: ${{ secrets.BOT_TOKEN }}
+          REPO: ${{ github.repository }}
+          BRANCH: ${{ github.event.pull_request.head.ref }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          set -euo pipefail
+          file=".claude-plugin/marketplace.json"
+
+          # Read from the PR head through the API rather than checking it out,
+          # so no PR-controlled content ever lands on the runner.
+          gh api "repos/$REPO/contents/$file?ref=$HEAD_SHA" --jq '.content' \
+            | base64 -d > marketplace.json
+
+          # Only bump plugins this repo actually owns (source == "./").
+          # Cross-linked entries pin another repo at a tag or sha; their content
+          # changes only when that pin changes, so their version must move in
+          # lockstep with the pin and must NOT be incremented by unrelated PRs.
+          # Auto-bumping one would churn client cache keys for byte-identical
+          # content; the reverse mistake (moving the pin without the version)
+          # would strand clients on a stale key. Never touching them avoids both.
+          owned="$(jq -r '[.plugins[] | select(.source == "./") | .name] | .[]' marketplace.json)"
+          if [ -z "$owned" ]; then
+            echo "No locally-sourced plugins to bump." && exit 0
+          fi
+
+          changed=0
+          for plugin in $owned; do
+            cur="$(jq -r --arg n "$plugin" '.plugins[] | select(.name==$n) | .version' marketplace.json)"
+            # Keep the operator's major.minor so a deliberate 1.1 -> 1.2 bump is
+            # honoured rather than reverted to a hard-coded prefix.
+            prefix="$(echo "$cur" | cut -d. -f1,2)"
+            cur_patch="$(echo "$cur" | cut -d. -f3)"
+            case "$cur_patch" in (''|*[!0-9]*) cur_patch=0 ;; esac
+            # run_number keeps values unique across concurrent runs, but it
+            # resets if the workflow is renamed or recreated — so floor it at
+            # current+1 to guarantee the version always moves forward. A reused
+            # version string would let a stale cache survive, which is the exact
+            # failure this workflow exists to prevent.
+            if [ "$RUN_NUMBER" -gt "$((cur_patch + 1))" ]; then
+              patch="$RUN_NUMBER"
+            else
+              patch="$((cur_patch + 1))"
+            fi
+            new="${prefix}.${patch}"
+            if [ "$new" = "$cur" ]; then continue; fi
+            jq --arg n "$plugin" --arg v "$new" \
+              '(.plugins[] | select(.name == $n) | .version) = $v' marketplace.json > tmp.json
+            mv -f tmp.json marketplace.json
+            echo "$plugin: $cur -> $new"
+            changed=1
+          done
+
+          if [ "$changed" -eq 0 ]; then
+            echo "Already bumped for this run; nothing to do." && exit 0
+          fi
+
+          # createCommitOnBranch signs the commit (see header). expectedHeadOid
+          # makes this a compare-and-swap: if the PR moved since this run
+          # started, the mutation fails instead of clobbering the newer commit,
+          # and the next synchronize event bumps again.
+          jq -n \
+            --arg repo "$REPO" \
+            --arg branch "$BRANCH" \
+            --arg oid "$HEAD_SHA" \
+            --arg contents "$(base64 -w0 marketplace.json 2>/dev/null || base64 marketplace.json | tr -d '\n')" \
+            --arg path ".claude-plugin/marketplace.json" \
+            '{query: "mutation($input: CreateCommitOnBranchInput!) { createCommitOnBranch(input: $input) { commit { oid } } }",
+              variables: {input: {
+                branch: {repositoryNameWithOwner: $repo, branchName: $branch},
+                message: {headline: "chore: bump plugin version"},
+                expectedHeadOid: $oid,
+                fileChanges: {additions: [{path: $path, contents: $contents}]}
+              }}}' > payload.json
+
+          gh api graphql --input payload.json --jq '.data.createCommitOnBranch.commit.oid'
