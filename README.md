@@ -1,8 +1,8 @@
 # SteerSpec · Claude Code configuration
 
 Shared **agents**, **skills** and **settings** for working across the
-[SteerSpec](https://steerspec.dev) repositories — packaged as an installable Claude Code plugin
-marketplace.
+[SteerSpec](https://steerspec.dev) repositories. This repo doubles as a Claude Code plugin
+marketplace, so one command installs the lot.
 
 If you work in more than one SteerSpec repo, this is the config that travels with you: the same
 review conventions, the same release rules, the same understanding of which repo a change belongs
@@ -47,8 +47,14 @@ diagnostic skills covering the PR auto-approval action.
 
 ## settings.json
 
-An org-level permission allowlist, so routine read-only work — `git`, `gh`, GitHub MCP lookups —
-doesn't stop to ask. It grants nothing destructive.
+An org-level permission allowlist (57 entries), so routine work — `git`, `gh`, GitHub MCP lookups —
+doesn't stop to ask on every call.
+
+**Read it before adopting it.** It is tuned for trusted maintainers working in this org, not
+hardened for general use. Among other things it allows `Bash(git:*)` (which includes `push --force`
+and `reset --hard`), `Bash(gh repo:*)` (which includes `gh repo delete`), `pip install` and `go get`
+(both execute code fetched from the network), and issue/repository writes through the GitHub MCP
+server. There is no `deny` list. If you copy this file, narrow it to what you actually need.
 
 ---
 
