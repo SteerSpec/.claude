@@ -72,8 +72,15 @@ jobs:
             if ! head -1 "$f" | grep -q '^---$'; then
               echo "$f: missing YAML frontmatter" >&2; rc=1; continue
             fi
-            grep -qE '^name: .+'        "$f" || { echo "$f: missing name:" >&2; rc=1; }
-            grep -qE '^description: .+' "$f" || { echo "$f: missing description:" >&2; rc=1; }
+            # Only the frontmatter block, never the body. Skills routinely quote
+            # yaml in their instructions, and a `name:` inside a fenced example
+            # would otherwise satisfy this check for a file whose real
+            # frontmatter is empty — the exact failure it exists to catch.
+            fm="$(awk 'NR==1 {next} /^---[[:space:]]*$/ {exit} {print}' "$f")"
+            printf '%s\n' "$fm" | grep -qE '^name: .+' \
+              || { echo "$f: missing name:" >&2; rc=1; }
+            printf '%s\n' "$fm" | grep -qE '^description: .+' \
+              || { echo "$f: missing description:" >&2; rc=1; }
           done
           exit $rc
 
@@ -84,7 +91,8 @@ jobs:
           for f in skills/*/SKILL.md; do
             [ -e "$f" ] || continue
             dir="$(basename "$(dirname "$f")")"
-            name="$(grep -m1 -E '^name: ' "$f" | sed 's/^name: //' | tr -d '\r')"
+            fm="$(awk 'NR==1 {next} /^---[[:space:]]*$/ {exit} {print}' "$f")"
+            name="$(printf '%s\n' "$fm" | grep -m1 -E '^name: ' | sed 's/^name: //' | tr -d '\r')"
             if [ "$dir" != "$name" ]; then
               echo "$f: frontmatter name '$name' != directory '$dir'" >&2; rc=1
             fi

@@ -54,6 +54,7 @@ jobs:
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.event.pull_request.head.ref }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
           RUN_NUMBER: ${{ github.run_number }}
         run: |
           set -euo pipefail
@@ -63,6 +64,19 @@ jobs:
           # so no PR-controlled content ever lands on the runner.
           gh api "repos/$REPO/contents/$file?ref=$HEAD_SHA" --jq '.content' \
             | base64 -d > marketplace.json
+
+          # The base branch's copy, which is what makes this workflow terminate.
+          # The bump commit is authored with a PAT precisely so it re-triggers CI
+          # (see header note 2), which means it also re-triggers THIS workflow via
+          # `synchronize`. The only thing stopping that from bumping forever is a
+          # guard that recognises a bump has already happened on this PR, and the
+          # honest way to ask that is "has the version moved off the base?" — not
+          # "did the bot author the head commit?", which would also silence bumps
+          # on PRs the bot legitimately opens. A hand-written bump satisfies it too,
+          # so an operator's deliberate 1.1 -> 1.2 is left alone rather than
+          # bumped a second time.
+          gh api "repos/$REPO/contents/$file?ref=$BASE_REF" --jq '.content' \
+            | base64 -d > base.json
 
           # Only bump plugins this repo actually owns (source == "./").
           # Cross-linked entries pin another repo at a tag or sha; their content
@@ -79,6 +93,16 @@ jobs:
           changed=0
           for plugin in $owned; do
             cur="$(jq -r --arg n "$plugin" '.plugins[] | select(.name==$n) | .version' marketplace.json)"
+            base_ver="$(jq -r --arg n "$plugin" \
+              'first(.plugins[] | select(.name==$n) | .version) // ""' base.json)"
+            if [ -z "$base_ver" ]; then
+              echo "$plugin: new in this PR, leaving its declared version alone"
+              continue
+            fi
+            if [ "$cur" != "$base_ver" ]; then
+              echo "$plugin: already moved ($base_ver -> $cur) on this PR; nothing to do"
+              continue
+            fi
             # Keep the operator's major.minor so a deliberate 1.1 -> 1.2 bump is
             # honoured rather than reverted to a hard-coded prefix.
             prefix="$(echo "$cur" | cut -d. -f1,2)"
@@ -95,6 +119,9 @@ jobs:
               patch="$((cur_patch + 1))"
             fi
             new="${prefix}.${patch}"
+            # Unreachable by construction (patch is always >= cur_patch + 1), but
+            # cheap insurance if that arithmetic is ever relaxed: committing a
+            # version identical to the base one would restart the loop above.
             if [ "$new" = "$cur" ]; then continue; fi
             jq --arg n "$plugin" --arg v "$new" \
               '(.plugins[] | select(.name == $n) | .version) = $v' marketplace.json > tmp.json
@@ -104,9 +131,17 @@ jobs:
           done
 
           if [ "$changed" -eq 0 ]; then
-            echo "Already bumped for this run; nothing to do." && exit 0
+            echo "No plugin needed a bump." && exit 0
           fi
 
+          # Note this only orders bumps within one PR. Two PRs open at once each
+          # bump off the same base, and whichever merges second lands its own
+          # number regardless of what the first one published — so main's version
+          # can move backwards. Harmless for the purpose here (a different string
+          # is still a different cache key, and release.yml refuses to re-publish
+          # an existing tag); it would matter only if the number were ever read as
+          # an ordering, which it is not.
+          #
           # createCommitOnBranch signs the commit (see header). expectedHeadOid
           # makes this a compare-and-swap: if the PR moved since this run
           # started, the mutation fails instead of clobbering the newer commit,
