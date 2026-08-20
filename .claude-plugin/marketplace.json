@@ -8,7 +8,7 @@
     {
       "name": "strspc-pr-review",
       "description": "SteerSpec org agents: architecture, planning, review and release",
-      "version": "2.0.5",
+      "version": "2.0.7",
       "source": "./"
     },
     {
