@@ -119,3 +119,14 @@ release tag — not copied into this one.
 `.claude-plugin/marketplace.json` carries a `version` per plugin, and CI bumps the patch on every
 PR. That is deliberate: Claude Code caches an installed plugin under its version string, so an
 unchanged version means clients keep serving the old copy and never see new skills.
+
+## License
+
+[Apache License 2.0](LICENSE) — the SteerSpec standard, shared with
+[`strspc-pr-review`](https://github.com/SteerSpec/strspc-pr-review),
+[`strspc-manager`](https://github.com/SteerSpec/strspc-manager) and
+[`strspc-rules`](https://github.com/SteerSpec/strspc-rules).
+
+You may use, modify and redistribute the agents, skills and settings here, including commercially,
+provided you keep the notices in [`NOTICE`](NOTICE). The cross-linked plugin resolves from
+`strspc-pr-review`, which is under the same license.
