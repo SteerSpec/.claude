@@ -1,6 +1,6 @@
 {
   "name": "steerspec",
-  "description": "SteerSpec shared Claude Code skills",
+  "description": "Shared Claude Code agents and skills for the SteerSpec org",
   "owner": {
     "name": "SteerSpec"
   },
