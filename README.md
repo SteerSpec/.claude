@@ -127,6 +127,10 @@ unchanged version means clients keep serving the old copy and never see new skil
 [`strspc-manager`](https://github.com/SteerSpec/strspc-manager) and
 [`strspc-rules`](https://github.com/SteerSpec/strspc-rules).
 
-You may use, modify and redistribute the agents, skills and settings here, including commercially,
-provided you keep the notices in [`NOTICE`](NOTICE). The cross-linked plugin resolves from
-`strspc-pr-review`, which is under the same license.
+You may use, modify and redistribute the agents, skills and settings here, including commercially.
+Redistribution comes with conditions — among them supplying a copy of the license, marking files you
+changed, retaining existing notices, and passing on [`NOTICE`](NOTICE). Section 4 of the
+[LICENSE](LICENSE) is the authority; treat this sentence as a pointer to it, not a summary of it.
+
+The cross-linked `strspc-pr-review-skills` plugin resolves from
+[`strspc-pr-review`](https://github.com/SteerSpec/strspc-pr-review), which is under the same license.
