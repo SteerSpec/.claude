@@ -1,0 +1,60 @@
+name: Release
+
+# Plugin versions live only in .claude-plugin/marketplace.json — there is no
+# package manifest here. This turns each version that lands on main into a git
+# tag and a GitHub Release, so the marketplace has a real history and a client
+# can be pointed at a known ref.
+#
+# bump-version.yml changes the version on every PR, so each merge produces one
+# release. The `gh release view` guard keeps that idempotent: a re-run, or a
+# push that touches the file without changing the version, will not duplicate.
+#
+# GITHUB_TOKEN is sufficient here even though main requires signed commits:
+# this creates a *tag* pointing at an already-merged commit, not a new commit.
+
+on:
+  push:
+    branches: [main]
+    paths: ['.claude-plugin/marketplace.json']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag and release the current version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          file=".claude-plugin/marketplace.json"
+
+          # Release the version of the plugin this repo owns. Cross-linked
+          # entries carry the version of whatever they pin, which is that
+          # repo's release to cut, not ours.
+          version="$(jq -r 'first(.plugins[] | select(.source == "./") | .version)' "$file")"
+          if [ -z "$version" ] || [ "$version" = "null" ]; then
+            echo "No locally-sourced plugin version found in $file" >&2
+            exit 1
+          fi
+
+          tag="v$version"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo "Release $tag already exists — nothing to do."
+            exit 0
+          fi
+
+          gh release create "$tag" \
+            --title "$tag" \
+            --generate-notes \
+            --target "$GITHUB_SHA"
+          echo "Released $tag"

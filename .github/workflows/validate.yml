@@ -1,0 +1,100 @@
+name: Validate marketplace structure
+
+# Two jobs in one: it keeps marketplace.json and the agent/skill frontmatter
+# honest, AND it gives this repo a check run at all. Without at least one check
+# the auto-approve action refuses to approve ("no checks on head SHA yet"), so
+# this workflow is a prerequisite for auto-approve.yml, not just hygiene.
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: marketplace.json is well-formed
+        run: |
+          set -euo pipefail
+          file=".claude-plugin/marketplace.json"
+          jq empty "$file"
+
+          # Every plugin needs the fields a client resolves it by. A missing
+          # version is not merely untidy: entries without one install into an
+          # `unknown/` cache directory instead of a version-keyed one, which
+          # makes "did this client get the update?" unanswerable.
+          missing="$(jq -r '
+            .plugins[]
+            | select((.name|not) or (.description|not) or (.version|not) or (.source|not))
+            | .name // "<unnamed>"
+          ' "$file")"
+          if [ -n "$missing" ]; then
+            echo "Plugins missing name/description/version/source: $missing" >&2
+            exit 1
+          fi
+
+          # Semver, so the bump workflow's major.minor prefix arithmetic holds.
+          bad="$(jq -r '
+            .plugins[]
+            | select(.version | test("^[0-9]+\\.[0-9]+\\.[0-9]+$") | not)
+            | "\(.name)=\(.version)"
+          ' "$file")"
+          if [ -n "$bad" ]; then
+            echo "Non-semver versions: $bad" >&2
+            exit 1
+          fi
+
+          # Names are the install key AND the agent invocation prefix
+          # (strspc-pr-review:Architect), so a duplicate would make one entry
+          # unaddressable.
+          dupes="$(jq -r '[.plugins[].name] | group_by(.) | map(select(length>1) | .[0]) | .[]' "$file")"
+          if [ -n "$dupes" ]; then
+            echo "Duplicate plugin names: $dupes" >&2
+            exit 1
+          fi
+          echo "marketplace.json OK"
+
+      - name: Agents and skills declare frontmatter
+        run: |
+          set -euo pipefail
+          rc=0
+          # `description` decides whether Claude picks the agent or skill at all,
+          # so an empty one silently makes it dead weight.
+          for f in agents/*.md skills/*/SKILL.md; do
+            [ -e "$f" ] || continue
+            if ! head -1 "$f" | grep -q '^---$'; then
+              echo "$f: missing YAML frontmatter" >&2; rc=1; continue
+            fi
+            # Only the frontmatter block, never the body. Skills routinely quote
+            # yaml in their instructions, and a `name:` inside a fenced example
+            # would otherwise satisfy this check for a file whose real
+            # frontmatter is empty — the exact failure it exists to catch.
+            fm="$(awk 'NR==1 {next} /^---[[:space:]]*$/ {exit} {print}' "$f")"
+            printf '%s\n' "$fm" | grep -qE '^name: .+' \
+              || { echo "$f: missing name:" >&2; rc=1; }
+            printf '%s\n' "$fm" | grep -qE '^description: .+' \
+              || { echo "$f: missing description:" >&2; rc=1; }
+          done
+          exit $rc
+
+      - name: Skill directory names match their frontmatter
+        run: |
+          set -euo pipefail
+          rc=0
+          for f in skills/*/SKILL.md; do
+            [ -e "$f" ] || continue
+            dir="$(basename "$(dirname "$f")")"
+            fm="$(awk 'NR==1 {next} /^---[[:space:]]*$/ {exit} {print}' "$f")"
+            name="$(printf '%s\n' "$fm" | grep -m1 -E '^name: ' | sed 's/^name: //' | tr -d '\r')"
+            if [ "$dir" != "$name" ]; then
+              echo "$f: frontmatter name '$name' != directory '$dir'" >&2; rc=1
+            fi
+          done
+          exit $rc
