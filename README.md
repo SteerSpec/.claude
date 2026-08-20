@@ -16,7 +16,15 @@ in.
 /plugin marketplace add SteerSpec/.claude
 ```
 
-The agents and skills below become available in every repo you open. Nothing else to configure.
+That registers the marketplace. Install the two plugins it publishes:
+
+```
+/plugin install strspc-pr-review@steerspec
+/plugin install strspc-pr-review-skills@steerspec
+```
+
+The first is the four agents, kept here. The second is skills, cross-linked from the repo they
+document — see [Skills](#skills) for why they are not in this repo.
 
 ---
 
@@ -38,12 +46,18 @@ Task-specific playbooks that trigger automatically when the work matches.
 
 | Skill | Use it when |
 |---|---|
+| **pr-auto-approve-setup** | Wiring the PR auto-approval action into a repo for the first time |
+| **pr-auto-approve-diagnose** | A PR wasn't auto-approved and you need to know which guard stopped it |
 | **pr-caller-sync** | The `pr-auto-approve` action changed and caller repos need matching updates |
 
-More skills live **in the repos they document**, rather than here, so they version with the code
-they describe and cannot drift into describing an unreleased version. See
-[`SteerSpec/strspc-pr-review`](https://github.com/SteerSpec/strspc-pr-review) for setup and
-diagnostic skills covering the PR auto-approval action.
+These live **in the repo they document**, not here. This marketplace cross-links them, pinned to
+that repo's release tag ([`v1.4.0`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.4.0)),
+so a skill can never describe behaviour that isn't released yet.
+
+That is not a hypothetical. This repo used to keep its own copy of `pr-caller-sync`; by the time it
+was removed it still told you to give caller workflows a `pull_request` trigger — the one that lets
+any PR read the bot token, fixed upstream in v1.4.0. A copy has no way to know the thing it
+describes has moved on.
 
 ## settings.json
 
@@ -87,7 +101,6 @@ Ask the **Architect** agent for the full decision tree.
 .claude-plugin/
   marketplace.json   # plugin manifest — what /plugin marketplace add reads
 agents/              # the four agents above, one markdown file each
-skills/              # skills scoped to this repo
 settings.json        # org-level permission allowlist
 ```
 
@@ -96,6 +109,13 @@ settings.json        # org-level permission allowlist
 Every change goes through a pull request — direct pushes to `main` are rejected by an organization
 ruleset, and PRs require an approving review.
 
-Agents and skills are plain markdown with YAML frontmatter (`name`, `description`). The
-`description` is what decides whether the agent or skill gets picked, so write it as *when to use
-this*, not *what this is*.
+Agents are plain markdown with YAML frontmatter (`name`, `description`). The `description` is what
+decides whether the agent gets picked, so write it as *when to use this*, not *what this is*. CI
+checks that frontmatter is present and that a skill's directory name matches its `name`.
+
+New skills belong in the repo whose behaviour they describe, cross-linked here at that repo's
+release tag — not copied into this one.
+
+`.claude-plugin/marketplace.json` carries a `version` per plugin, and CI bumps the patch on every
+PR. That is deliberate: Claude Code caches an installed plugin under its version string, so an
+unchanged version means clients keep serving the old copy and never see new skills.
