@@ -52,7 +52,7 @@ jobs:
           fi
 
           # Names are the install key AND the agent invocation prefix
-          # (strspc-pr-review:Architect), so a duplicate would make one entry
+          # (strspc-agents:Architect), so a duplicate would make one entry
           # unaddressable.
           dupes="$(jq -r '[.plugins[].name] | group_by(.) | map(select(length>1) | .[0]) | .[]' "$file")"
           if [ -n "$dupes" ]; then
