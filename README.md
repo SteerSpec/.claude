@@ -19,12 +19,13 @@ in.
 That registers the marketplace. Install the two plugins it publishes:
 
 ```
-/plugin install strspc-pr-review@steerspec
+/plugin install strspc-agents@steerspec
 /plugin install strspc-pr-review-skills@steerspec
 ```
 
-The first is the four agents, kept here. The second is skills, cross-linked from the repo they
-document — see [Skills](#skills) for why they are not in this repo.
+`strspc-agents` is the four agents, kept here. `strspc-pr-review-skills` is the skills for the
+[pr-auto-approve](https://github.com/SteerSpec/strspc-pr-review) action, cross-linked from the repo
+they document — see [Skills](#skills) for why they are not in this repo.
 
 ---
 
@@ -51,7 +52,7 @@ Task-specific playbooks that trigger automatically when the work matches.
 | **pr-caller-sync** | The `pr-auto-approve` action changed and caller repos need matching updates |
 
 These live **in the repo they document**, not here. This marketplace cross-links them, pinned to
-that repo's release tag ([`v1.4.0`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.4.0)),
+that repo's release tag ([`v1.7.0`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.7.0)),
 so a skill can never describe behaviour that isn't released yet.
 
 That is not a hypothetical. This repo used to keep its own copy of `pr-caller-sync`; by the time it
@@ -100,7 +101,7 @@ Ask the **Architect** agent for the full decision tree.
 ```
 .claude-plugin/
   marketplace.json   # plugin manifest — what /plugin marketplace add reads
-agents/              # the four agents above, one markdown file each
+agents/              # the four agents above (plugin strspc-agents), one markdown file each
 settings.json        # org-level permission allowlist
 ```
 
