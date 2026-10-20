@@ -8,7 +8,7 @@
     {
       "name": "strspc-agents",
       "description": "SteerSpec org agents: architecture, planning, review and release",
-      "version": "3.0.0",
+      "version": "3.0.15",
       "source": "./"
     },
     {
