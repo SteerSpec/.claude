@@ -30,7 +30,10 @@ versus `GITHUB_TOKEN`, GraphQL commit versus `git push`).
   describe) and point it at your own repos, or drop the entry.
 - `settings.json`: an allowlist tuned for trusted maintainers plus a `deny` list for the
   commands no agent should run unattended. Start from the deny list and add only the allows
-  you need; `Bash(git:*)` is broad on purpose here and may not be right for you.
+  you need; `Bash(git:*)` is broad on purpose here and may not be right for you. The deny
+  patterns are prefix and glob matches on the command text, so they catch the usual
+  spellings (`git push --force`, `git push origin main --force`, `git reset HEAD --hard`)
+  but not every argument order; treat them as a backstop, not a sandbox.
 
 ## 3. Per-org checklist
 
@@ -59,8 +62,11 @@ Everything the workflows assume about the organization, in the order to set it u
    every change through a PR, add the App as a bypass actor for that ruleset or the state
    write fails.
 7. **Pin sync from a skills repo (optional).** If another repo publishes skills cross-linked
-   here, its pin-sync workflow needs the `MARKETPLACE_REPO` repository variable set to
-   `<org>/.claude` (SteerSpec's `strspc-pr-review` reads it, defaulting to this repo).
+   here, its pin-sync workflow has to target your marketplace. SteerSpec's
+   `strspc-pr-review` hard-codes `TARGET_REPO: SteerSpec/.claude` in
+   `sync-marketplace-pin.yml` up to v1.7.1; change that value in your copy. From the release
+   that includes SteerSpec/strspc-pr-review#85 it reads the `MARKETPLACE_REPO` repository
+   variable instead, with the SteerSpec repo as the default.
 
 ## 4. Install
 

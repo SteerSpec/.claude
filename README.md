@@ -69,8 +69,9 @@ doesn't stop to ask on every call.
 hardened for general use. Among other things it allows `Bash(git:*)` (which includes `push --force`
 and `reset --hard`), `Bash(gh repo:*)` (which includes `gh repo delete`), `pip install` and `go get`
 (both execute code fetched from the network), and issue/repository writes through the GitHub MCP
-server. A short `deny` list blocks force pushes, hard resets, `gh repo delete` and `rm -rf`
-regardless of the allows. If you copy this file, narrow it to what you actually need.
+server. A short `deny` list blocks the usual spellings of force pushes, hard resets,
+`gh repo delete` and `rm -rf` regardless of the allows; it is a backstop, not a sandbox. If
+you copy this file, narrow it to what you actually need.
 
 ---
 
