@@ -52,7 +52,7 @@ Task-specific playbooks that trigger automatically when the work matches.
 | **pr-caller-sync** | The `pr-auto-approve` action changed and caller repos need matching updates |
 
 These live **in the repo they document**, not here. This marketplace cross-links them, pinned to
-that repo's release tag ([`v1.7.0`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.7.0)),
+that repo's release tag ([`v1.7.1`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.7.1)),
 so a skill can never describe behaviour that isn't released yet.
 
 That is not a hypothetical. This repo used to keep its own copy of `pr-caller-sync`; by the time it
@@ -69,7 +69,8 @@ doesn't stop to ask on every call.
 hardened for general use. Among other things it allows `Bash(git:*)` (which includes `push --force`
 and `reset --hard`), `Bash(gh repo:*)` (which includes `gh repo delete`), `pip install` and `go get`
 (both execute code fetched from the network), and issue/repository writes through the GitHub MCP
-server. There is no `deny` list. If you copy this file, narrow it to what you actually need.
+server. A short `deny` list blocks force pushes, hard resets, `gh repo delete` and `rm -rf`
+regardless of the allows. If you copy this file, narrow it to what you actually need.
 
 ---
 
@@ -102,8 +103,14 @@ Ask the **Architect** agent for the full decision tree.
 .claude-plugin/
   marketplace.json   # plugin manifest — what /plugin marketplace add reads
 agents/              # the four agents above (plugin strspc-agents), one markdown file each
-settings.json        # org-level permission allowlist
+settings.json        # org-level permission allowlist and deny list
+docs/ORG_SETUP.md    # how to reuse this repo in another organization
 ```
+
+## Reusing this in your org
+
+See [docs/ORG_SETUP.md](docs/ORG_SETUP.md): which files to copy unchanged, which to rewrite,
+and the bot, ruleset and secret prerequisites the workflows assume.
 
 ## Contributing
 

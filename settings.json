@@ -58,6 +58,13 @@
       "Bash(bd update:*)",
       "Bash(bd dep:*)",
       "Bash(bd server:*)"
+    ],
+    "deny": [
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard*)",
+      "Bash(gh repo delete*)",
+      "Bash(rm -rf*)"
     ]
   }
 }
