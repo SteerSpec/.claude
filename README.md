@@ -92,8 +92,8 @@ secrets `STEERSPEC_APP_ID` and `STEERSPEC_PRIVATE_KEY`):
 | `steerspec-conflict.yml` | weekly | Flags local Claude Code configuration that contradicts the org-managed one |
 
 The App's PRs run CI and auto-approve in the target repos like any other PR; merging stays
-a human decision there. `sync.dry-run` in `steerspec-sync.yml` is `true` on first landing, so
-the first run only reports what it would open.
+a human decision there. To rehearse a template change without writing anything, dispatch
+`steerspec-sync.yml` with the `dry-run` input on (or set `sync.dry-run: true` in the config).
 
 ---
 
