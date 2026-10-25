@@ -1,0 +1,23 @@
+name: SteerSpec Conflict Detection
+
+# Weekly: flags target repos whose local Claude Code configuration contradicts
+# the org-managed one (tiers 1 and 2) as `steerspec-conflict` issues.
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  conflict:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: SteerSpec/strspc-sync/conflict@v0.2.3
+        with:
+          tiers: '1,2'
+          app-id: ${{ secrets.STEERSPEC_APP_ID }}
+          private-key: ${{ secrets.STEERSPEC_PRIVATE_KEY }}

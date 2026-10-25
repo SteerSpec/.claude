@@ -1,0 +1,65 @@
+version: "1.0.0"
+
+# SteerSpec dogfoods strspc-sync: this repo is the central config and the
+# other SteerSpec repos are the targets. In GitHub Actions central-repo is
+# inferred from GITHUB_REPOSITORY; it is set here so `strspc sync --dry-run`
+# also works from a local checkout.
+central-repo: SteerSpec/.claude
+
+auth:
+  method: github-app
+  # STEERSPEC_APP_ID and STEERSPEC_PRIVATE_KEY reach the binary through the
+  # workflow's app-id / private-key inputs (org secrets). The steerspec-sync App
+  # is installed on every SteerSpec repo; its Contents-API commits are
+  # GitHub-signed, which the enterprise required_signatures rule demands, and it
+  # is a bypass actor on the pr-mandatory ruleset so the deployment-state write
+  # back to this repo's main lands without a PR.
+
+templates:
+  # The org-standards block of every repo's CLAUDE.md. Marker strategy: only
+  # the STEERSPEC:BEGIN/END section is managed and the rest of the file is kept;
+  # a repo without a CLAUDE.md receives the whole template. Mustache variables
+  # are not expanded in marker mode, so the template uses none.
+  - id: claude-md
+    version: "1.0.0"
+    type: claude-md
+    source: templates/CLAUDE.md.mustache
+    destination: CLAUDE.md
+    strategy: marker
+
+  # The four agents in agents/ are delivered by the strspc-agents plugin from
+  # this marketplace. Syncing them as files as well would open four more PRs
+  # per repo for a duplicate copy, so they stay plugin-only until the owner
+  # decides whether the plugin or the synced files are the canonical channel.
+
+targets:
+  include:
+    - "SteerSpec/*"
+  exclude:
+    - "SteerSpec/.claude"            # this repo
+    - "SteerSpec/.github"
+    - "SteerSpec/.github-private"
+    - "SteerSpec/main"               # archived; discovery does not filter archived repos
+    - "SteerSpec/strspc-marketing"
+
+sync:
+  concurrency: 3
+  pr-label: steerspec-sync
+  close-stale-prs: true
+  # Commit messages and PR titles default to the conventional-commit form
+  # `chore(steerspec-sync): update <template> to <version>`, which satisfies
+  # commitlint (rules, manager) and action-semantic-pull-request (CLI).
+  #
+  # First landing is a dry run: the job summary lists the repos and templates
+  # that would get a PR. A follow-up PR flips this to false.
+  dry-run: true
+
+monitor:
+  schedule: "0 8 * * 1"
+  issue-label: steerspec-drift
+  auto-close: true
+
+conflicts:
+  schedule: "0 9 * * 1"
+  tiers: [1, 2]
+  issue-label: steerspec-conflict
