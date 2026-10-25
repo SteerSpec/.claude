@@ -1,0 +1,76 @@
+name: SteerSpec Sync
+
+# Dogfood. Opens a PR in every target repo (see steerspec-sync.yml) whenever the
+# managed templates change, authored by the steerspec-sync App: its PRs get CI
+# and auto-approve in the target repos, which GITHUB_TOKEN-caused events never
+# do, and its Contents-API commits are GitHub-signed (verified: true on the
+# testbed runs). A non-dry run also writes .steerspec/deployment-state.json
+# back to this repo's main; the App is a bypass actor on the pr-mandatory
+# ruleset for exactly that write. A dry run writes nothing at all, neither
+# PRs nor state, so monitor and conflict (which read that state) have nothing
+# to report until the first real sync has run.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'templates/**'
+      - 'steerspec-sync.yml'
+      - '.github/workflows/steerspec-sync.yml'
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Dry run: list what would be synced, write nothing'
+        type: boolean
+        default: true
+      force:
+        description: 'Re-sync even where the stored content hash matches'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # Two overlapping runs would race on the deployment-state file.
+    concurrency:
+      group: steerspec-sync
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+      - uses: SteerSpec/strspc-sync/sync@v0.2.3
+        id: sync
+        with:
+          # ORed with sync.dry-run in steerspec-sync.yml: either one makes a dry run.
+          dry-run: ${{ inputs.dry-run || false }}
+          force: ${{ inputs.force || false }}
+          app-id: ${{ secrets.STEERSPEC_APP_ID }}
+          private-key: ${{ secrets.STEERSPEC_PRIVATE_KEY }}
+
+      # The action only prints JSON and exposes it as the `summary` output;
+      # render it so the run page shows what was (or would have been) opened.
+      - name: Job summary
+        if: always()
+        env:
+          SUMMARY: ${{ steps.sync.outputs.summary }}
+          DRY_RUN: ${{ inputs.dry-run || false }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## strspc sync"
+            echo
+            if [ -z "${SUMMARY}" ]; then
+              echo "The sync step produced no summary; see its log."
+            else
+              printf '%s' "${SUMMARY}" | jq -r '
+                "Repos targeted: \(.repos_targeted) · PRs created: \(.prs_created) · PRs updated: \(.prs_updated) · skipped: \(.repos_skipped) · errors: \(.errors)",
+                "",
+                "| Repo | Template | Status | PR / error |",
+                "|---|---|---|---|",
+                (.repo_results[] | "| \(.repo) | \(.template_id) | \(.status) | \(.pr_url // .error // "") |")'
+              echo
+              echo "A dry run (workflow input \`dry-run\`, or \`sync.dry-run\` in steerspec-sync.yml) reports every planned PR as \`skipped\`; this one: dry-run input = ${DRY_RUN}."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

@@ -15,6 +15,8 @@ is about SteerSpec.
 | `.github/workflows/release.yml` | Tags and releases each version that lands on `main` | Copy unchanged |
 | `.github/workflows/auto-approve.yml` | Approves a PR as the bot once Copilot's review is clean | Copy, then change `bot-login` (two places, see the comment in the file) |
 | `.gitignore` | Keeps `settings.local.json` out of the repo | Copy unchanged |
+| `.github/workflows/steerspec-sync.yml`, `steerspec-monitor.yml`, `steerspec-conflict.yml` | Run strspc-sync with this repo as the central config (optional, see checklist item 6) | Copy unchanged if you use strspc-sync; they read only org secrets |
+| `steerspec-sync.yml`, `templates/` | What strspc-sync distributes and to whom | Rewrite: targets, exclusions and the template text are all SteerSpec's |
 
 Read the header comment of each workflow before changing anything in it. Each one records a
 choice that looked optional and was not (`pull_request_target` versus `pull_request`, PAT
@@ -57,10 +59,12 @@ Everything the workflows assume about the organization, in the order to set it u
    to approve those by hand.
 6. **strspc-sync (optional).** If this repo is also the central config for
    [strspc-sync](https://github.com/SteerSpec/strspc-sync), install the sync GitHub App on
-   the org and store `STEERSPEC_APP_ID` and `STEERSPEC_PRIVATE_KEY` as org secrets. The sync
-   writes `.steerspec/deployment-state.json` back to this repo; when an org ruleset forces
-   every change through a PR, add the App as a bypass actor for that ruleset or the state
-   write fails.
+   the org (contents, pull requests and issues write) and store `STEERSPEC_APP_ID` and
+   `STEERSPEC_PRIVATE_KEY` as org secrets; the three `steerspec-*.yml` workflows read
+   nothing else. The sync writes `.steerspec/deployment-state.json` back to this repo's
+   default branch; when an org ruleset forces every change through a PR, add the App as a
+   bypass actor for that ruleset or the state write fails. Land `steerspec-sync.yml` with
+   `sync.dry-run: true` first and read the job summary before flipping it.
 7. **Pin sync from a skills repo (optional).** If another repo publishes skills cross-linked
    here, its pin-sync workflow has to target your marketplace. SteerSpec's
    `strspc-pr-review` hard-codes `TARGET_REPO: SteerSpec/.claude` in

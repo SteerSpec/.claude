@@ -73,6 +73,28 @@ server. A short `deny` list blocks the usual spellings of force pushes, hard res
 `gh repo delete` and `rm -rf` regardless of the allows; it is a backstop, not a sandbox. If
 you copy this file, narrow it to what you actually need.
 
+## Org-wide sync
+
+This repo is also the central configuration for
+[strspc-sync](https://github.com/SteerSpec/strspc-sync), applied to SteerSpec itself.
+`steerspec-sync.yml` lists the managed templates and the target repos; today that is the
+`org-standards` block of every repo's `CLAUDE.md`, rendered from
+`templates/CLAUDE.md.mustache` with the marker strategy, so each repo keeps its own notes
+around the managed section.
+
+Three workflows drive it, all authenticated as the **steerspec-sync** GitHub App (org
+secrets `STEERSPEC_APP_ID` and `STEERSPEC_PRIVATE_KEY`):
+
+| Workflow | When | What |
+|---|---|---|
+| `steerspec-sync.yml` | push to `main` touching the templates or config, or by hand | Opens or updates one PR per repo and template; records the result in `.steerspec/deployment-state.json` |
+| `steerspec-monitor.yml` | weekly | Opens a `steerspec-drift` issue in a repo whose managed files no longer match, closes it when they do again |
+| `steerspec-conflict.yml` | weekly | Flags local Claude Code configuration that contradicts the org-managed one |
+
+The App's PRs run CI and auto-approve in the target repos like any other PR; merging stays
+a human decision there. `sync.dry-run` in `steerspec-sync.yml` is `true` on first landing, so
+the first run only reports what it would open.
+
 ---
 
 ## How SteerSpec fits together
@@ -105,6 +127,9 @@ Ask the **Architect** agent for the full decision tree.
   marketplace.json   # plugin manifest — what /plugin marketplace add reads
 agents/              # the four agents above (plugin strspc-agents), one markdown file each
 settings.json        # org-level permission allowlist and deny list
+steerspec-sync.yml   # strspc-sync central config: managed templates and target repos
+templates/           # the templates it distributes (CLAUDE.md org-standards block)
+.steerspec/          # deployment-state.json, written by the sync workflow
 docs/ORG_SETUP.md    # how to reuse this repo in another organization
 ```
 
