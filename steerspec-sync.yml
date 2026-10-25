@@ -51,7 +51,9 @@ sync:
   # commitlint (rules, manager) and action-semantic-pull-request (CLI).
   #
   # First landing is a dry run: the job summary lists the repos and templates
-  # that would get a PR. A follow-up PR flips this to false.
+  # that would get a PR; nothing is written, not even the deployment state.
+  # A follow-up PR flips this to false; that run opens the PRs and writes
+  # .steerspec/deployment-state.json, which monitor and conflict then read.
   dry-run: true
 
 monitor:

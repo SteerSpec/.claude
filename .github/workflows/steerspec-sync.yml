@@ -3,9 +3,12 @@ name: SteerSpec Sync
 # Dogfood. Opens a PR in every target repo (see steerspec-sync.yml) whenever the
 # managed templates change, authored by the steerspec-sync App: its PRs get CI
 # and auto-approve in the target repos, which GITHUB_TOKEN-caused events never
-# do, and its commits are GitHub-signed. The run also writes
-# .steerspec/deployment-state.json back to this repo's main; the App is a
-# bypass actor on the pr-mandatory ruleset for exactly that write.
+# do, and its Contents-API commits are GitHub-signed (verified: true on the
+# testbed runs). A non-dry run also writes .steerspec/deployment-state.json
+# back to this repo's main; the App is a bypass actor on the pr-mandatory
+# ruleset for exactly that write. A dry run writes nothing at all, neither
+# PRs nor state, so monitor and conflict (which read that state) have nothing
+# to report until the first real sync has run.
 
 on:
   push:
