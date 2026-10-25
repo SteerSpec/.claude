@@ -41,9 +41,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: SteerSpec/strspc-sync/sync@v0.2.3
+        id: sync
         with:
           # ORed with sync.dry-run in steerspec-sync.yml: either one makes a dry run.
           dry-run: ${{ inputs.dry-run || false }}
           force: ${{ inputs.force || false }}
           app-id: ${{ secrets.STEERSPEC_APP_ID }}
           private-key: ${{ secrets.STEERSPEC_PRIVATE_KEY }}
+
+      # The action only prints JSON and exposes it as the `summary` output;
+      # render it so the run page shows what was (or would have been) opened.
+      - name: Job summary
+        if: always()
+        env:
+          SUMMARY: ${{ steps.sync.outputs.summary }}
+          DRY_RUN: ${{ inputs.dry-run || false }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## strspc sync"
+            echo
+            if [ -z "${SUMMARY}" ]; then
+              echo "The sync step produced no summary; see its log."
+            else
+              printf '%s' "${SUMMARY}" | jq -r '
+                "Repos targeted: \(.repos_targeted) · PRs created: \(.prs_created) · PRs updated: \(.prs_updated) · skipped: \(.repos_skipped) · errors: \(.errors)",
+                "",
+                "| Repo | Template | Status | PR / error |",
+                "|---|---|---|---|",
+                (.repo_results[] | "| \(.repo) | \(.template_id) | \(.status) | \(.pr_url // .error // "") |")'
+              echo
+              echo "A dry run (workflow input \`dry-run\`, or \`sync.dry-run\` in steerspec-sync.yml) reports every planned PR as \`skipped\`; this one: dry-run input = ${DRY_RUN}."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
