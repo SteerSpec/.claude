@@ -6,7 +6,7 @@
         "hash": "b3_a3b4049d42ca21455e3598888e30ae1d2230438708a751d4b2a0c19b2b616e83",
         "timestamp": "2026-10-26T15:54:01.04811754Z",
         "pr_number": 114,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -26,7 +26,7 @@
         "hash": "b3_b2b33c9b54b657eef529134f7e814cd38bc778601f4782d4a831a196fae0c91f",
         "timestamp": "2026-10-26T15:54:08.019784636Z",
         "pr_number": 120,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -36,7 +36,7 @@
         "hash": "b3_41f06a83c32a49eb3e48ceacdd6439abb809dde85636d5e3f6159d01537d9bee",
         "timestamp": "2026-10-26T15:54:00.854953398Z",
         "pr_number": 106,
-        "pr_status": "open",
+        "pr_status": "closed",
         "previous_version": "1.0.0"
       }
     },
@@ -46,7 +46,7 @@
         "hash": "b3_d872402a749552f6f0bc914c0f7be032cbe98df7d2e89eb7f294e9ccdffb810d",
         "timestamp": "2026-10-26T15:54:15.781328003Z",
         "pr_number": 66,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -56,7 +56,7 @@
         "hash": "b3_73d53787186aef83b2c35616af09b9e66ca523bf853a8594e698472ba27f59d6",
         "timestamp": "2026-10-26T15:54:08.353954431Z",
         "pr_number": 10,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -66,7 +66,7 @@
         "hash": "b3_59b4ccfb133f394943c9651cfa2fc5c0661a67bc0d299267a30d0788b2341337",
         "timestamp": "2026-10-26T15:54:16.184708352Z",
         "pr_number": 81,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -76,11 +76,11 @@
         "hash": "b3_26ae557fd151e90f37d06d88469efcd444f811d403735c0ae6eec39ef21bc390",
         "timestamp": "2026-10-26T15:54:01.141469104Z",
         "pr_number": 150,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     }
   },
-  "hash": "b3_1641bf7292013279e4bbd04a95d03c61ce5b201dd3b4c41b1e6f6e9d47acc4c9",
-  "updated_at": "2026-10-26T15:54:16.184724953Z"
+  "hash": "b3_34d5768b0a11964c19901f6035d88c37394bfcb759a36587786d3703c701a652",
+  "updated_at": "2026-10-26T16:34:03.013292557Z"
 }
