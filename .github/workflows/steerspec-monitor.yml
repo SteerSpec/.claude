@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: SteerSpec/strspc-sync/monitor@v0.2.7
+      - uses: SteerSpec/strspc-sync/monitor@v0.2.8
         with:
           # Reads the targets and opens issues in them: the App token, not GITHUB_TOKEN.
           app-id: ${{ secrets.STEERSPEC_APP_ID }}
