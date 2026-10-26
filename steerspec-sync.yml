@@ -54,11 +54,12 @@ sync:
   # `chore(steerspec-sync): update <template> to <version>`, which satisfies
   # commitlint (rules, manager) and action-semantic-pull-request (CLI).
   #
-  # First landing is a dry run: the job summary lists the repos and templates
-  # that would get a PR; nothing is written, not even the deployment state.
-  # A follow-up PR flips this to false; that run opens the PRs and writes
-  # .steerspec/deployment-state.json, which monitor and conflict then read.
-  dry-run: true
+  # The first landing (PR #17) ran dry: run 40229581784 resolved the eight
+  # targets and reported every one as a planned PR with no errors. Live now:
+  # each run opens or updates the PRs and writes .steerspec/deployment-state.json,
+  # which monitor and conflict then read. Set to true (or dispatch the workflow
+  # with dry-run on) to rehearse a template change without writing anything.
+  dry-run: false
 
 monitor:
   schedule: "0 8 * * 1"
