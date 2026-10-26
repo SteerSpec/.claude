@@ -33,10 +33,10 @@
     "SteerSpec/strspc-pr-review": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_41f06a83c32a49eb3e48ceacdd6439abb809dde85636d5e3f6159d01537d9bee",
-        "timestamp": "2026-10-26T15:54:00.854953398Z",
-        "pr_number": 106,
-        "pr_status": "closed",
+        "hash": "b3_b87741c1a59bfc004c76e34f8f96dc1cd8fd3ba04a47bcdcfc54bf80a0655ec4",
+        "timestamp": "2026-10-26T17:20:23.065202321Z",
+        "pr_number": 108,
+        "pr_status": "open",
         "previous_version": "1.0.0"
       }
     },
@@ -81,6 +81,6 @@
       }
     }
   },
-  "hash": "b3_34d5768b0a11964c19901f6035d88c37394bfcb759a36587786d3703c701a652",
-  "updated_at": "2026-10-26T16:36:48.468685188Z"
+  "hash": "b3_666425d81503549ace9bfda31f10388ecaaea17ee91f46470e34966a75750715",
+  "updated_at": "2026-10-26T17:20:23.065217354Z"
 }
