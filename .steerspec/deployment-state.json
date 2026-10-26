@@ -36,7 +36,7 @@
         "hash": "b3_b87741c1a59bfc004c76e34f8f96dc1cd8fd3ba04a47bcdcfc54bf80a0655ec4",
         "timestamp": "2026-10-26T17:20:23.065202321Z",
         "pr_number": 108,
-        "pr_status": "open",
+        "pr_status": "closed",
         "previous_version": "1.0.0"
       }
     },
@@ -81,6 +81,6 @@
       }
     }
   },
-  "hash": "b3_666425d81503549ace9bfda31f10388ecaaea17ee91f46470e34966a75750715",
-  "updated_at": "2026-10-26T17:20:23.065217354Z"
+  "hash": "b3_77a0c9e724e47054391cf0236dca9ba3d3743dfbbc59d8682daa5f3bb6337374",
+  "updated_at": "2026-10-26T17:35:08.094321884Z"
 }
