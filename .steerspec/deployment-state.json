@@ -1,0 +1,78 @@
+{
+  "repositories": {
+    "SteerSpec/strspc-CLI": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_5d6775e7392b7e83f32339f52f9b92f8a8b8bf52e8566bc078f288726631b5c8",
+        "timestamp": "2026-10-26T15:14:44.716224584Z",
+        "pr_number": 113,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-cloud": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_2aef204458779ee3afc37a8d4b96b45eaf95f6bd420a2489fb57c83860151fe6",
+        "timestamp": "2026-10-26T15:14:44.244494181Z",
+        "pr_number": 7,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-manager": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_fd60bd0dcefc16cb330b7b6b80ca55c2c8ef700810f60d4cbd4b64912f4b35a3",
+        "timestamp": "2026-10-26T15:14:49.531301024Z",
+        "pr_number": 119,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-pr-review": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_d3e858fc6a26041a600fcb9bd9c0e669d596f78b2f2c57e587245c73f0558409",
+        "timestamp": "2026-10-26T15:14:50.647664526Z",
+        "pr_number": 105,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-rules": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_2aef204458779ee3afc37a8d4b96b45eaf95f6bd420a2489fb57c83860151fe6",
+        "timestamp": "2026-10-26T15:14:49.493697362Z",
+        "pr_number": 65,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-spec": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_6356ff5e64f4d51588a0e734890bd1f3a5d33fcf8c02529ec382c36521e2a112",
+        "timestamp": "2026-10-26T15:14:54.787573071Z",
+        "pr_number": 9,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-sync": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_5affc26cec035e66b063f9ea654c84209759406d676957454fc71fb6eb694d9f",
+        "timestamp": "2026-10-26T15:14:54.689495565Z",
+        "pr_number": 79,
+        "pr_status": "open"
+      }
+    },
+    "SteerSpec/strspc-www": {
+      "claude-md": {
+        "version": "1.0.0",
+        "hash": "b3_1d82107d36b6225f74dd6cb647cc9799ec4416e9046a3cd33e2835e008afeaf8",
+        "timestamp": "2026-10-26T15:14:44.500593384Z",
+        "pr_number": 149,
+        "pr_status": "open"
+      }
+    }
+  },
+  "hash": "b3_9a9e8b97cc48d0498e8b18522eba178479303efba6e324133dfc6dfc269a0ed3",
+  "updated_at": "2026-10-26T15:14:54.787582726Z"
+}
