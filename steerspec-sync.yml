@@ -21,7 +21,7 @@ templates:
   # a repo without a CLAUDE.md receives the whole template. Mustache variables
   # are not expanded in marker mode, so the template uses none.
   - id: claude-md
-    version: "1.0.0"
+    version: "1.0.1"
     type: claude-md
     source: templates/CLAUDE.md.mustache
     destination: CLAUDE.md

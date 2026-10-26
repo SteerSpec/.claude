@@ -12,13 +12,15 @@ Managed by [SteerSpec/.claude](https://github.com/SteerSpec/.claude) through
 next sync.
 
 - **Tiers.** strspc-rules (rule definitions) → strspc-manager (Go engine) →
-  strspc-CLI. Dependencies point downward only. Release and tag upstream before
-  bumping a downstream `go.mod` or core pin.
+  strspc-CLI and the other consumers of strspc-manager. Dependencies point
+  downward only. Release and tag upstream before bumping a downstream `go.mod`
+  or core pin.
 - **Pull requests only.** Org rulesets reject direct pushes to the default
   branch and require verified commit signatures; Copilot review and
   pr-auto-approve gate the merge. Agents open PRs and never merge them.
-- **Conventional commits** (`type(scope): subject`). release-please derives
-  versions and changelogs from them.
+- **Conventional commits** (`type(scope): subject`). Where a repo uses
+  release-please, it derives versions and changelogs from them; other repos
+  follow the release process in their own README or AGENTS.md.
 - **Rules live next to the code.** Each repo owns a realm under `rules/` that
   depends on `dev.steerspec.core`. Author rules through `strspc rule …` so the
   content hashes stay valid; never hand-edit rule JSON.
