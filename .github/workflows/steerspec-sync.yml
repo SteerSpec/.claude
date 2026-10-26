@@ -40,7 +40,7 @@ jobs:
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
-      - uses: SteerSpec/strspc-sync/sync@v0.2.6
+      - uses: SteerSpec/strspc-sync/sync@v0.2.7
         id: sync
         with:
           # ORed with sync.dry-run in steerspec-sync.yml: either one makes a dry run.
