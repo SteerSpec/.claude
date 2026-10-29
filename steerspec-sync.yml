@@ -31,7 +31,7 @@ templates:
   # opens one grouped PR per new tag. full-replace overwrites a target's own
   # dependabot.yml, so repos with extra ecosystems are excluded under targets.overrides.
   - id: dependabot
-    version: "1.0.0"
+    version: "1.0.1"
     type: config
     source: templates/dependabot.yml
     destination: .github/dependabot.yml
