@@ -42,9 +42,10 @@ templates:
   # per repo for a duplicate copy, so they stay plugin-only until the owner
   # decides whether the plugin or the synced files are the canonical channel.
 
-# Resolves to eight repos today: strspc-rules, strspc-manager, strspc-CLI,
-# strspc-sync, strspc-pr-review, strspc-www, strspc-spec and strspc-cloud
-# (the last three are private; the App is installed on every repo of the org,
+# Resolves to nine repos today: strspc-rules, strspc-manager, strspc-CLI,
+# strspc-sync, strspc-pr-review, strspc-www, strspc-spec, strspc-cloud and
+# homebrew-tap
+# (strspc-www, strspc-spec and strspc-cloud are private; the App is installed on every repo of the org,
 # so discovery sees them).
 targets:
   include:
@@ -65,6 +66,11 @@ targets:
     - repo: SteerSpec/strspc-www
       exclude_templates:
         - dependabot
+    # A Homebrew tap has no rules/ realm, so the org-standards CLAUDE.md block
+    # does not apply; it still takes the dependabot template.
+    - repo: SteerSpec/homebrew-tap
+      exclude_templates:
+        - claude-md
 
 sync:
   concurrency: 3
