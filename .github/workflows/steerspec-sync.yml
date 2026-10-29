@@ -48,6 +48,18 @@ jobs:
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
+      # strspc-sync@v0.3.0 interpolates these straight into a shell command, so
+      # reject anything outside a glob / template-ID charset before it gets there.
+      - name: Validate filters
+        env:
+          TARGET_FILTER: ${{ inputs.target-filter }}
+          TEMPLATE_FILTER: ${{ inputs.template-filter }}
+        run: |
+          set -euo pipefail
+          re='^[A-Za-z0-9._*?/,-]*$'
+          for v in "$TARGET_FILTER" "$TEMPLATE_FILTER"; do
+            [[ "$v" =~ $re ]] || { echo "::error::filter contains disallowed characters"; exit 1; }
+          done
       - uses: SteerSpec/strspc-sync/sync@v0.3.0
         id: sync
         with:
