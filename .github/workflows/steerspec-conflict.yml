@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: SteerSpec/strspc-sync/conflict@v0.2.8
+      - uses: SteerSpec/strspc-sync/conflict@v0.3.0
         with:
           tiers: '1,2'
           app-id: ${{ secrets.STEERSPEC_APP_ID }}

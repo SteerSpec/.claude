@@ -27,6 +27,16 @@ templates:
     destination: CLAUDE.md
     strategy: marker
 
+  # Keeps the strspc-sync action pins in every target repo current: Dependabot
+  # opens one grouped PR per new tag. full-replace overwrites a target's own
+  # dependabot.yml, so repos needing extra ecosystems must be excluded.
+  - id: dependabot
+    version: "1.0.0"
+    type: config
+    source: templates/dependabot.yml
+    destination: .github/dependabot.yml
+    strategy: full-replace
+
   # The four agents in agents/ are delivered by the strspc-agents plugin from
   # this marketplace. Syncing them as files as well would open four more PRs
   # per repo for a duplicate copy, so they stay plugin-only until the owner
