@@ -29,7 +29,7 @@ templates:
 
   # Keeps the strspc-sync action pins in every target repo current: Dependabot
   # opens one grouped PR per new tag. full-replace overwrites a target's own
-  # dependabot.yml, so repos needing extra ecosystems must be excluded.
+  # dependabot.yml, so repos with extra ecosystems are excluded under targets.overrides.
   - id: dependabot
     version: "1.0.0"
     type: config
@@ -55,6 +55,16 @@ targets:
     - "SteerSpec/.github-private"
     - "SteerSpec/main"               # archived; discovery does not filter archived repos
     - "SteerSpec/strspc-marketing"
+
+  # These repos keep an npm ecosystem (and repo-specific settings) in their own
+  # dependabot.yml, which the full-replace dependabot template would overwrite.
+  overrides:
+    - repo: SteerSpec/strspc-pr-review
+      exclude_templates:
+        - dependabot
+    - repo: SteerSpec/strspc-www
+      exclude_templates:
+        - dependabot
 
 sync:
   concurrency: 3
