@@ -6,14 +6,15 @@
         "hash": "b3_dacb8aad082421e7df5b27e3ee7c519f6628313f10f912af49d11615ac2f92da",
         "timestamp": "2026-10-29T11:05:40.923209841Z",
         "pr_number": 5,
-        "pr_status": "open"
+        "pr_status": "closed"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:46.235667612Z",
-        "pr_number": 6,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:05.886728232Z",
+        "pr_number": 7,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-CLI": {
@@ -26,11 +27,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:35.505797677Z",
-        "pr_number": 137,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:05.243910408Z",
+        "pr_number": 142,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-cloud": {
@@ -43,11 +45,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:35.497780747Z",
-        "pr_number": 9,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:11.557917236Z",
+        "pr_number": 11,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-manager": {
@@ -60,11 +63,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:42.751022171Z",
-        "pr_number": 138,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:05.365163205Z",
+        "pr_number": 142,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-pr-review": {
@@ -87,11 +91,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:37.124443584Z",
-        "pr_number": 82,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:11.63079485Z",
+        "pr_number": 86,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-spec": {
@@ -104,11 +109,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:41.266221854Z",
-        "pr_number": 13,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:12.002649845Z",
+        "pr_number": 14,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-sync": {
@@ -121,11 +127,12 @@
         "previous_version": "1.0.0"
       },
       "dependabot": {
-        "version": "1.0.0",
-        "hash": "b3_5e540f9dd0956bd2f1e2647ab66be01541c408be87bea125c806ebaffc5e4ab4",
-        "timestamp": "2026-10-29T11:05:46.784600456Z",
-        "pr_number": 110,
-        "pr_status": "open"
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-10-29T17:34:17.217375973Z",
+        "pr_number": 112,
+        "pr_status": "open",
+        "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-www": {
@@ -139,6 +146,6 @@
       }
     }
   },
-  "hash": "b3_4391e4672ae4de682776921ab469bfe25496eed22361ab6af536bbfcb83ba5a1",
-  "updated_at": "2026-10-29T11:05:46.784688567Z"
+  "hash": "b3_5c9a038b6f7392f3604644e692e805676847180fdb69126294e5f8fb6f76f537",
+  "updated_at": "2026-10-29T17:34:17.217479094Z"
 }
