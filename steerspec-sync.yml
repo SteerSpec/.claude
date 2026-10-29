@@ -65,6 +65,11 @@ targets:
     - repo: SteerSpec/strspc-www
       exclude_templates:
         - dependabot
+    # A Homebrew tap has no rules/ realm, so the org-standards CLAUDE.md block
+    # does not apply; it still takes the dependabot template.
+    - repo: SteerSpec/homebrew-tap
+      exclude_templates:
+        - claude-md
 
 sync:
   concurrency: 3
