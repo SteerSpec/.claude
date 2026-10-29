@@ -27,6 +27,14 @@ on:
         description: 'Re-sync even where the stored content hash matches'
         type: boolean
         default: false
+      target-filter:
+        description: 'Glob pattern limiting which target repositories are synced'
+        type: string
+        default: ''
+      template-filter:
+        description: 'Comma-separated template IDs to sync (empty = all)'
+        type: string
+        default: ''
 
 permissions:
   contents: read
@@ -40,12 +48,26 @@ jobs:
       cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7
-      - uses: SteerSpec/strspc-sync/sync@v0.2.8
+      # strspc-sync@v0.3.0 interpolates these straight into a shell command, so
+      # reject anything outside a glob / template-ID charset before it gets there.
+      - name: Validate filters
+        env:
+          TARGET_FILTER: ${{ inputs.target-filter }}
+          TEMPLATE_FILTER: ${{ inputs.template-filter }}
+        run: |
+          set -euo pipefail
+          re='^[A-Za-z0-9._*?/,-]*$'
+          for v in "$TARGET_FILTER" "$TEMPLATE_FILTER"; do
+            [[ "$v" =~ $re ]] || { echo "::error::filter contains disallowed characters"; exit 1; }
+          done
+      - uses: SteerSpec/strspc-sync/sync@v0.3.0
         id: sync
         with:
           # ORed with sync.dry-run in steerspec-sync.yml: either one makes a dry run.
           dry-run: ${{ inputs.dry-run || false }}
           force: ${{ inputs.force || false }}
+          target-filter: ${{ inputs.target-filter }}
+          template-filter: ${{ inputs.template-filter }}
           app-id: ${{ secrets.STEERSPEC_APP_ID }}
           private-key: ${{ secrets.STEERSPEC_PRIVATE_KEY }}
 
