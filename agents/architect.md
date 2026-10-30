@@ -25,12 +25,12 @@ Layer 3b: strspc-cloud   (Go)     — SaaS tier (planned), wraps manager
 | Project | Role | Status |
 |---------|------|--------|
 | `strspc-sync` | Go CLI + GitHub Action — distributes `.claude/` configs across a GH org via PRs | Active |
-| `strspc-spec` | Formal specification — **planned** upstream source for rules, manager, CLI, sync, and cloud. Not yet ready. | Planned |
+| `strspc-spec` | `dev.steerspec.platform` realm — cross-cutting platform rules: tier direction, release order, realm ownership, where logic lives | Active |
 | `strspc-www` | Jekyll site at steerspec.dev — hosts schemas and documentation | Active |
 | `strspc-marketing` | Brand assets (logos, colors, copy) | Active |
 | `.claude` | This repo — org-level Claude Code config, agents, settings | Active |
 
-**Note on strspc-spec:** Once ready, strspc-spec will become the canonical source that strspc-rules, strspc-manager, strspc-CLI, strspc-sync, and strspc-cloud all derive from. Until then, **strspc-rules is the source of truth** for rule definitions.
+**Note on strspc-spec:** strspc-spec holds only the rules no single component can own. It is not an upstream source: **strspc-rules is the source of truth** for the rule format, and each component owns its rules in its own realm.
 
 Each sub-project is a **separate git repo** with its own `.beads/`, `.github/workflows/`, and independent CI.
 
