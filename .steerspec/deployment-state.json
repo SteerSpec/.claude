@@ -6,7 +6,7 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:05.886728232Z",
         "pr_number": 7,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -24,7 +24,7 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:05.243910408Z",
         "pr_number": 142,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -42,7 +42,7 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:11.557917236Z",
         "pr_number": 11,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -88,7 +88,7 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:11.63079485Z",
         "pr_number": 86,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
@@ -106,15 +106,15 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:12.002649845Z",
         "pr_number": 14,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-sync": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_59b4ccfb133f394943c9651cfa2fc5c0661a67bc0d299267a30d0788b2341337",
-        "timestamp": "2026-10-26T15:54:16.184708352Z",
+        "hash": "b3_ba3ae407b2eaee0f9332cb1ca43e1b0febc777e8ccbf14663bc095db6c3c3b65",
+        "timestamp": "2026-10-30T17:18:02.122794213Z",
         "pr_number": 81,
         "pr_status": "merged",
         "previous_version": "1.0.0"
@@ -124,21 +124,21 @@
         "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
         "timestamp": "2026-10-29T17:34:17.217375973Z",
         "pr_number": 112,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     },
     "SteerSpec/strspc-www": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_26ae557fd151e90f37d06d88469efcd444f811d403735c0ae6eec39ef21bc390",
-        "timestamp": "2026-10-26T15:54:01.141469104Z",
+        "hash": "b3_09486ae92d24532c792dd4c7e6c5aed12bbb76ce6552de64c9ebf7b35ff10974",
+        "timestamp": "2026-10-30T17:17:59.497741884Z",
         "pr_number": 150,
         "pr_status": "merged",
         "previous_version": "1.0.0"
       }
     }
   },
-  "hash": "b3_c888536da3c099def34df64496682b47afe70926b56c2b0833f7151732a2c2ae",
-  "updated_at": "2026-10-29T18:11:36.735628118Z"
+  "hash": "b3_aa7372da4b4164d81c60b9d3295e335763f5f91a8fb4f7e55cc201360af2dbdf",
+  "updated_at": "2026-10-30T17:18:03.820131122Z"
 }
