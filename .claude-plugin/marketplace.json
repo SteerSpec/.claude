@@ -8,19 +8,19 @@
     {
       "name": "strspc-agents",
       "description": "SteerSpec org agents: architecture, planning, review and release",
-      "version": "3.0.65",
+      "version": "3.0.67",
       "source": "./"
     },
     {
       "name": "strspc-pr-review-skills",
       "description": "Setup and diagnostic skills for the pr-auto-approve GitHub Action, resolved from its own repo at the pinned release",
-      "version": "1.9.2",
+      "version": "1.9.3",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/SteerSpec/strspc-pr-review.git",
         "path": "skills",
-        "ref": "v1.9.2",
-        "sha": "40e2a249c3b780124028ef04674c5cdfe75c7f91"
+        "ref": "v1.9.3",
+        "sha": "7b3c3aa5542d42b52f94dfb093428cd5dfeaa171"
       },
       "strict": false,
       "skills": [
