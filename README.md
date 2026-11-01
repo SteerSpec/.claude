@@ -46,7 +46,7 @@ Ask the **Architect** agent for the full decision tree.
 | Plugin | Contents | Source |
 |--------|----------|--------|
 | `strspc-agents` | The four [agents](#agents) | this repo |
-| `strspc-pr-review-skills` | The three [skills](#skills) | [strspc-pr-review](https://github.com/SteerSpec/strspc-pr-review), pinned to `v1.9.1` |
+| `strspc-pr-review-skills` | The three [skills](#skills) | [strspc-pr-review](https://github.com/SteerSpec/strspc-pr-review), pinned to a release tag in `marketplace.json` |
 
 ## Agents
 
@@ -69,7 +69,7 @@ Task-specific playbooks that trigger automatically when the work matches.
 | `pr-auto-approve-diagnose` | A PR wasn't auto-approved and you need to know which guard stopped it |
 | `pr-caller-sync` | The `pr-auto-approve` action changed and caller repos need matching updates |
 
-Skills live **in the repo they document**, not here. The marketplace cross-links them, pinned to that repo's release tag ([`v1.9.1`](https://github.com/SteerSpec/strspc-pr-review/releases/tag/v1.9.1)), so a skill can never describe behaviour that isn't released yet. This repo once kept its own copy of `pr-caller-sync`; by the time it was removed it still told you to give caller workflows a `pull_request` trigger — the one that lets any PR read the bot token, fixed upstream in v1.4.0. A copy has no way to know the thing it describes has moved on.
+Skills live **in the repo they document**, not here. The marketplace cross-links them, pinned to a release tag of that repo (see `source.ref` in `.claude-plugin/marketplace.json`), so a skill can never describe behaviour that isn't released yet. This repo once kept its own copy of `pr-caller-sync`; by the time it was removed it still told you to give caller workflows a `pull_request` trigger — the one that lets any PR read the bot token, fixed upstream in v1.4.0. A copy has no way to know the thing it describes has moved on.
 
 ## Settings
 
