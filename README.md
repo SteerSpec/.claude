@@ -117,7 +117,7 @@ Every change goes through a pull request — direct pushes to `main` are rejecte
 
 - **Agents** are plain markdown with YAML frontmatter (`name`, `description`). The `description` decides whether the agent gets picked, so write it as *when to use this*, not *what this is*. CI checks that frontmatter is present and that a skill's directory name matches its `name`.
 - **Skills** belong in the repo whose behaviour they describe, cross-linked here at that repo's release tag — not copied into this one.
-- **Versions**: `.claude-plugin/marketplace.json` carries a `version` per plugin, and CI bumps the patch on every PR. That is deliberate: Claude Code caches an installed plugin under its version string, so an unchanged version means clients keep serving the old copy and never see new skills.
+- **Versions**: `.claude-plugin/marketplace.json` carries a `version` per plugin, and CI bumps the patch on every same-repo PR (not on fork PRs, and not for a plugin whose version the PR already changed). That is deliberate: Claude Code caches an installed plugin under its version string, so an unchanged version means clients keep serving the old copy and never see new skills.
 
 ## Reusing this in your org
 
