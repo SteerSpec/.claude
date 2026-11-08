@@ -82,7 +82,7 @@
         "hash": "b3_657eaf4c5195039e960df146f38cd586cde8a7853b59b38ba4707ac20791d034",
         "timestamp": "2026-11-08T08:29:32.046427737Z",
         "pr_number": 197,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.0",
         "sections": [
           "org-standards"
@@ -115,11 +115,15 @@
     "SteerSpec/strspc-spec": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_73d53787186aef83b2c35616af09b9e66ca523bf853a8594e698472ba27f59d6",
-        "timestamp": "2026-10-26T15:54:08.353954431Z",
+        "hash": "b3_cdce26c7e85622ee821282ac86b4d764e4c7e1092e52d9bd5a7bd05cc4741792",
+        "timestamp": "2026-11-08T09:00:44.103427571Z",
         "pr_number": 10,
         "pr_status": "merged",
-        "previous_version": "1.0.0"
+        "previous_version": "1.0.0",
+        "sections": [
+          "org-standards"
+        ],
+        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -167,6 +171,6 @@
       }
     }
   },
-  "hash": "b3_36d0e0bf085ce7d5c82a4845249b53992306cf6aa91200a396af6a4001afb7e8",
-  "updated_at": "2026-11-08T08:29:32.046508489Z"
+  "hash": "b3_8b8c9cbd15a85b18617ea9c6adf91c532f441dbe474d346d031880d9b56cce23",
+  "updated_at": "2026-11-08T09:00:45.361052803Z"
 }
