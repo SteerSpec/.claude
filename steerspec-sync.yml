@@ -66,6 +66,11 @@ targets:
     - repo: SteerSpec/strspc-www
       exclude_templates:
         - dependabot
+    # Copied from strspc-pr-review: npm ecosystem, commitlint group, fix: prefix
+    # (action.yml pins ship to consumers, so a bump must release).
+    - repo: SteerSpec/strspc-pr-approval
+      exclude_templates:
+        - dependabot
     # A Homebrew tap has no rules/ realm, so the org-standards CLAUDE.md block
     # does not apply; it still takes the dependabot template.
     - repo: SteerSpec/homebrew-tap
