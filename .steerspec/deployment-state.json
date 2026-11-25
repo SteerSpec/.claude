@@ -76,6 +76,24 @@
         "previous_version": "1.0.0"
       }
     },
+    "SteerSpec/strspc-pr-approval": {
+      "claude-md": {
+        "version": "1.0.1",
+        "hash": "b3_59ab49ee7f59df98bd62b14db867b091c05a86361484487ad9a342d12e2de601",
+        "timestamp": "2026-11-25T13:32:03.645642827Z",
+        "sections": [
+          "org-standards"
+        ],
+        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+      },
+      "dependabot": {
+        "version": "1.0.1",
+        "hash": "b3_48aa85daa16a190edd2e7866fa329515763615b27c665e2e5c90365084a22fa9",
+        "timestamp": "2026-11-25T13:32:07.747433649Z",
+        "pr_number": 17,
+        "pr_status": "open"
+      }
+    },
     "SteerSpec/strspc-pr-review": {
       "claude-md": {
         "version": "1.0.1",
@@ -137,8 +155,8 @@
     "SteerSpec/strspc-sync": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_789d7896fd4e58f4d163801d0b1ac8397cbe3d44d513ad11268247168288cb6d",
-        "timestamp": "2026-11-08T08:29:28.084559718Z",
+        "hash": "b3_67916f9232207d82e85687cd12f2f507f6c21ec14515ddd1852c22b998a6c14d",
+        "timestamp": "2026-11-25T13:32:02.114209968Z",
         "pr_number": 81,
         "pr_status": "merged",
         "previous_version": "1.0.0",
@@ -159,8 +177,8 @@
     "SteerSpec/strspc-www": {
       "claude-md": {
         "version": "1.0.1",
-        "hash": "b3_8c5e20c7b6aa4d76fbb2d2805f47a0c83fb2f8e895c9640159a117fc4d43f2a8",
-        "timestamp": "2026-11-08T08:29:26.960668052Z",
+        "hash": "b3_c9a54ba27bc426cce1452d3970515a7c642d912b1658a86d40b2268e9c91b225",
+        "timestamp": "2026-11-25T13:32:01.30195102Z",
         "pr_number": 150,
         "pr_status": "merged",
         "previous_version": "1.0.0",
@@ -171,6 +189,6 @@
       }
     }
   },
-  "hash": "b3_8b8c9cbd15a85b18617ea9c6adf91c532f441dbe474d346d031880d9b56cce23",
-  "updated_at": "2026-11-08T09:00:45.361052803Z"
+  "hash": "b3_8e1b38400b1cc6b797fc743458d6900fb75a3d16f3dc10009aa8702d63bb78fe",
+  "updated_at": "2026-11-25T13:32:07.747508511Z"
 }
