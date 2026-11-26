@@ -14,13 +14,13 @@
     {
       "name": "strspc-pr-review-skills",
       "description": "Setup and diagnostic skills for the pr-auto-approve GitHub Action, resolved from its own repo at the pinned release",
-      "version": "1.12.0",
+      "version": "1.12.1",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/SteerSpec/strspc-pr-review.git",
         "path": "skills",
-        "ref": "v1.12.0",
-        "sha": "c936b0a461a0e86e7687f88a7f1e801e2759c240"
+        "ref": "v1.12.1",
+        "sha": "18264ba49d76ae9353de2209166aeceaea524c88"
       },
       "strict": false,
       "skills": [
