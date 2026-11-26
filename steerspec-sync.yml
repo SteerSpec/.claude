@@ -42,9 +42,9 @@ templates:
   # per repo for a duplicate copy, so they stay plugin-only until the owner
   # decides whether the plugin or the synced files are the canonical channel.
 
-# Resolves to nine repos today: strspc-rules, strspc-manager, strspc-CLI,
-# strspc-sync, strspc-pr-review, strspc-www, strspc-spec, strspc-cloud and
-# homebrew-tap
+# Resolves to ten repos today: strspc-rules, strspc-manager, strspc-CLI,
+# strspc-sync, strspc-pr-review, strspc-pr-approval, strspc-www, strspc-spec,
+# strspc-cloud and homebrew-tap
 # (strspc-www and strspc-cloud are not public; the App is installed on every repo of the org,
 # so discovery sees them).
 targets:
@@ -64,6 +64,11 @@ targets:
       exclude_templates:
         - dependabot
     - repo: SteerSpec/strspc-www
+      exclude_templates:
+        - dependabot
+    # Copied from strspc-pr-review: npm ecosystem, commitlint group, fix: prefix
+    # (action.yml pins ship to consumers, so a bump must release).
+    - repo: SteerSpec/strspc-pr-approval
       exclude_templates:
         - dependabot
     # A Homebrew tap has no rules/ realm, so the org-standards CLAUDE.md block
