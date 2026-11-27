@@ -1,0 +1,6 @@
+# strspc configuration. Used by `strspc refs` (validate.yml, rule-refs-drift.yml)
+# to check the rule IDs that templates/ cites. This repo owns no realm.
+rules:
+  # Pinned to a strspc-rules release; rule-refs-drift.yml checks the latest one.
+  - source: github://SteerSpec/strspc-rules@v1.27.0/rules/core
+    scope: global

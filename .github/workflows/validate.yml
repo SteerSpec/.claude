@@ -100,7 +100,10 @@ jobs:
           exit $rc
 
       # Templates cite rules by ID and mustache cannot resolve them, so this is the
-      # only thing tying the prose to the rules. Checks the pinned ref in
-      # rule-refs.lock.json; rule-refs-drift.yml checks the latest release.
-      - name: Cited rules exist and are unchanged
-        run: python3 -I scripts/check-rule-refs.py
+      # only thing tying the prose to the rules. Resolves against the core pinned in
+      # .strspc/config.yaml; rule-refs-drift.yml checks the latest release.
+      - uses: SteerSpec/strspc-CLI/.github/actions/setup-strspc@1ce43e4484d9451083c0774a9926178889d684f2  # CLI #92
+        with:
+          version: "1.46.0"
+      - name: Cited rules exist and are in force
+        run: strspc refs templates --include '*.mustache' --strict

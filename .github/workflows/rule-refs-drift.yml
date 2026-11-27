@@ -1,10 +1,10 @@
 name: Rule reference drift
 
-# validate.yml checks citations against the rules pinned in rule-refs.lock.json.
+# validate.yml checks citations against the core pinned in .strspc/config.yaml.
 # This weekly run checks them against the latest strspc-rules release, so a rule
-# that changes or retires after a template cites it turns this run red instead of
-# going unnoticed. Fix: re-read each citing line in templates/, adjust it, then
-# `python3 scripts/check-rule-refs.py --update` and commit the lock.
+# that is retired, abandoned or superseded after a template cites it turns this
+# run red instead of going unnoticed. Fix: change the citing line in templates/,
+# then bump the pin in .strspc/config.yaml.
 
 on:
   schedule:
@@ -19,7 +19,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Cited rules match the latest release
+      - uses: SteerSpec/strspc-CLI/.github/actions/setup-strspc@1ce43e4484d9451083c0774a9926178889d684f2  # CLI #92
+        with:
+          version: "1.46.0"
+      - name: Point the core pin at the latest release
         env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python3 -I scripts/check-rule-refs.py --latest
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag="$(gh release view --repo SteerSpec/strspc-rules --json tagName --jq .tagName)"
+          sed -i -E "s#(strspc-rules@)v[0-9]+\.[0-9]+\.[0-9]+#\1${tag}#" .strspc/config.yaml
+          grep -n "strspc-rules@" .strspc/config.yaml
+      - name: Cited rules are in force in the latest core
+        run: strspc refs templates --include '*.mustache' --strict
