@@ -5,7 +5,10 @@ Templates cite rules by ID (e.g. NTE-020). Mustache cannot resolve those, and
 marker-mode sync expands no variables, so nothing else ties the prose to the
 rule. This script does:
 
-  * every cited ID must exist in dev.steerspec.core at the pinned ref,
+  * every cited ID must exist in dev.steerspec.core at the pinned ref (rules in
+    nested sub_entities count, e.g. RULST-001 lives in RUL.json),
+  * an ID-shaped string whose prefix is no core entity (SHA-256 style) is an
+    error unless it is listed in the lock's "ignore" array,
   * the rule must not be Abandoned, Retired or Terminated (A, R, T),
   * its state and body must match rule-refs.lock.json, so any change to a cited
     rule fails the check until a person re-reads the citing line and runs
@@ -24,7 +27,6 @@ import json
 import os
 import re
 import sys
-import urllib.error
 import urllib.request
 
 REPO = "SteerSpec/strspc-rules"
@@ -35,18 +37,13 @@ ID_RE = re.compile(r"\b([A-Z]{2,8})-(\d{3})\b")
 DEAD = {"A", "R", "T"}  # Abandoned, Retired, Terminated
 
 
-def http(url, accept_404=False):
+def http(url):
     req = urllib.request.Request(url, headers={"User-Agent": "rule-refs-check"})
     token = os.environ.get("GITHUB_TOKEN")
     if token and url.startswith("https://api.github.com/"):
         req.add_header("Authorization", "Bearer " + token)
-    try:
-        with urllib.request.urlopen(req, timeout=30) as r:
-            return r.read()
-    except urllib.error.HTTPError as e:
-        if accept_404 and e.code == 404:
-            return None
-        raise
+    with urllib.request.urlopen(req, timeout=30) as r:
+        return r.read()
 
 
 def latest_ref():
@@ -54,21 +51,35 @@ def latest_ref():
     return json.loads(data)["tag_name"]
 
 
-_families = {}
+_core = {}
 
 
-def family(ref, prefix):
-    """Rules of rules/core/<prefix>.json at ref, or None if no such file."""
-    key = (ref, prefix)
-    if key not in _families:
-        raw = http(
-            f"https://raw.githubusercontent.com/{REPO}/{ref}/rules/core/{prefix}.json",
-            accept_404=True,
+def flatten(entity_doc, rules, prefixes):
+    """Collect rules and entity IDs from a core file and its nested sub_entities."""
+    prefixes.add(entity_doc["entity"]["id"])
+    for r in entity_doc.get("rules", []):
+        rules[r["id"]] = r
+    for sub in entity_doc.get("sub_entities", []):
+        flatten(sub, rules, prefixes)
+
+
+def core(ref):
+    """(rules by ID, entity prefixes) across every rules/core/*.json at ref."""
+    if ref not in _core:
+        listing = json.loads(
+            http(f"https://api.github.com/repos/{REPO}/contents/rules/core?ref={ref}")
         )
-        _families[key] = (
-            None if raw is None else {r["id"]: r for r in json.loads(raw)["rules"]}
-        )
-    return _families[key]
+        rules, prefixes = {}, set()
+        for item in listing:
+            name = item["name"]
+            if not name.endswith(".json") or name == "realm.json":
+                continue
+            raw = http(
+                f"https://raw.githubusercontent.com/{REPO}/{ref}/rules/core/{name}"
+            )
+            flatten(json.loads(raw), rules, prefixes)
+        _core[ref] = (rules, prefixes)
+    return _core[ref]
 
 
 def cited_ids():
@@ -85,14 +96,20 @@ def cited_ids():
     return found
 
 
-def resolve(ref, cited):
-    """(ids -> rule snapshot, problems) for the IDs that belong to a core family."""
+def resolve(ref, cited, ignore):
+    """(ids -> rule snapshot, problems) for every cited ID that is not ignored."""
+    rules, prefixes = core(ref)
     snap, problems = {}, []
     for rid, where in sorted(cited.items()):
-        fam = family(ref, rid.split("-")[0])
-        if fam is None:
-            continue  # not a rule family (SHA-256 style false positive)
-        rule = fam.get(rid)
+        if rid in ignore:
+            continue
+        if rid.split("-")[0] not in prefixes:
+            problems.append(
+                f"{rid} ({where[0]}): no core entity has this prefix; if it is not a "
+                f'rule, add it to "ignore" in rule-refs.lock.json'
+            )
+            continue
+        rule = rules.get(rid)
         if rule is None:
             problems.append(f"{rid} ({where[0]}): no such rule at {ref}")
             continue
@@ -122,13 +139,16 @@ def main():
 
     if args.update:
         ref = latest_ref()
-        snap, problems = resolve(ref, cited)
+        ignore = sorted(lock.get("ignore", []))
+        snap, problems = resolve(ref, cited, set(ignore))
         for p in problems:
             print("error:", p, file=sys.stderr)
         if problems:
             return 1
         with open(LOCK, "w", encoding="utf-8") as fh:
-            json.dump({"source": REPO, "ref": ref, "refs": snap}, fh, indent=2)
+            json.dump(
+                {"source": REPO, "ref": ref, "ignore": ignore, "refs": snap}, fh, indent=2
+            )
             fh.write("\n")
         print(f"wrote {os.path.relpath(LOCK, ROOT)} at {ref}: {', '.join(snap) or 'no refs'}")
         return 0
@@ -137,7 +157,8 @@ def main():
         print("error: rule-refs.lock.json missing; run with --update", file=sys.stderr)
         return 1
     ref = latest_ref() if args.latest else lock["ref"]
-    snap, problems = resolve(ref, cited)
+    ignore = set(lock.get("ignore", []))
+    snap, problems = resolve(ref, cited, ignore)
     locked = lock["refs"]
     for rid in sorted(snap):
         if rid not in locked:
@@ -150,6 +171,8 @@ def main():
     for rid in sorted(set(locked) - set(snap)):
         if rid not in cited:
             problems.append(f"{rid}: in the lock but no template cites it; run --update")
+    for rid in sorted(ignore - set(cited)):
+        problems.append(f"{rid}: ignored in the lock but no template cites it; remove it")
     for p in problems:
         print("error:", p, file=sys.stderr)
     if problems:

@@ -1,6 +1,7 @@
 {
   "source": "SteerSpec/strspc-rules",
   "ref": "v1.27.0",
+  "ignore": [],
   "refs": {
     "NTE-020": {
       "state": "I",
