@@ -12,16 +12,16 @@
     },
     "SteerSpec/strspc-CLI": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_1147d0af5fb83bdc052f4789fd31007304f377b383ac044f03b17a29c679698a",
-        "timestamp": "2026-11-08T08:29:27.796540107Z",
-        "pr_number": 114,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_e53c4263b7f9c331c3b130ba5fae560861f9eb3331e92532f182c6cec7b9e978",
+        "timestamp": "2026-11-27T17:02:32.824614336Z",
+        "pr_number": 397,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -34,16 +34,16 @@
     },
     "SteerSpec/strspc-cloud": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_d872402a749552f6f0bc914c0f7be032cbe98df7d2e89eb7f294e9ccdffb810d",
-        "timestamp": "2026-11-08T08:29:28.164433262Z",
-        "pr_number": 8,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_bba9ed17a525982ec95c486d4cbf9204103985f0e9647727a01183dbc73836e8",
+        "timestamp": "2026-11-27T17:02:32.743003641Z",
+        "pr_number": 39,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -56,16 +56,16 @@
     },
     "SteerSpec/strspc-manager": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_e505e5c6c3259b27c7ddb660e55e562f80ba243c36db312b3df382513c75b18d",
-        "timestamp": "2026-11-08T08:29:27.828882548Z",
-        "pr_number": 120,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_2542dae7d30b5fed70f74e1d129d028f19db2de2cac893b2b663881c6a95bacf",
+        "timestamp": "2026-11-27T17:02:40.424341194Z",
+        "pr_number": 422,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -78,13 +78,16 @@
     },
     "SteerSpec/strspc-pr-approval": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_59ab49ee7f59df98bd62b14db867b091c05a86361484487ad9a342d12e2de601",
-        "timestamp": "2026-11-25T13:32:03.645642827Z",
+        "version": "1.0.2",
+        "hash": "b3_da8c210112a6758a32ee1a81ba72ff80969f84256b5f606394d46f96393eba95",
+        "timestamp": "2026-11-27T17:02:41.248857142Z",
+        "pr_number": 31,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -96,30 +99,30 @@
     },
     "SteerSpec/strspc-pr-review": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_657eaf4c5195039e960df146f38cd586cde8a7853b59b38ba4707ac20791d034",
-        "timestamp": "2026-11-08T08:29:32.046427737Z",
-        "pr_number": 197,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_3850d51cbf75fa43e3f8cf1173a785d9fc295b1bd29d14e5fb16c1fffa16f444",
+        "timestamp": "2026-11-27T17:02:40.413153627Z",
+        "pr_number": 221,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       }
     },
     "SteerSpec/strspc-rules": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_d872402a749552f6f0bc914c0f7be032cbe98df7d2e89eb7f294e9ccdffb810d",
-        "timestamp": "2026-11-08T08:29:27.257561631Z",
-        "pr_number": 66,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_bba9ed17a525982ec95c486d4cbf9204103985f0e9647727a01183dbc73836e8",
+        "timestamp": "2026-11-27T17:02:47.804452735Z",
+        "pr_number": 222,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -132,16 +135,16 @@
     },
     "SteerSpec/strspc-spec": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_cdce26c7e85622ee821282ac86b4d764e4c7e1092e52d9bd5a7bd05cc4741792",
-        "timestamp": "2026-11-08T09:00:44.103427571Z",
-        "pr_number": 10,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_c4bc1756cc721b20b85226a0fb426e34cf335f14cf378263c865e13a42793307",
+        "timestamp": "2026-11-27T17:02:49.561906073Z",
+        "pr_number": 73,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -154,16 +157,16 @@
     },
     "SteerSpec/strspc-sync": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_67916f9232207d82e85687cd12f2f507f6c21ec14515ddd1852c22b998a6c14d",
-        "timestamp": "2026-11-25T13:32:02.114209968Z",
-        "pr_number": 81,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_f9f62bc3982b11eb84f1b6282de812cd064ddafc3faa250117802c3880579bec",
+        "timestamp": "2026-11-27T17:02:50.655131932Z",
+        "pr_number": 286,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       },
       "dependabot": {
         "version": "1.0.1",
@@ -176,19 +179,19 @@
     },
     "SteerSpec/strspc-www": {
       "claude-md": {
-        "version": "1.0.1",
-        "hash": "b3_c9a54ba27bc426cce1452d3970515a7c642d912b1658a86d40b2268e9c91b225",
-        "timestamp": "2026-11-25T13:32:01.30195102Z",
-        "pr_number": 150,
-        "pr_status": "merged",
-        "previous_version": "1.0.0",
+        "version": "1.0.2",
+        "hash": "b3_9917c10b484c9405e6f8570598899ace46c877fbc9eb968b9f14b89119274d6b",
+        "timestamp": "2026-11-27T17:02:31.730651812Z",
+        "pr_number": 315,
+        "pr_status": "open",
+        "previous_version": "1.0.1",
         "sections": [
           "org-standards"
         ],
-        "sections_hash": "b3_ad280536356548fa22bafbd510c3945083fa15877a202ecb8b8f59313fdbbdfb"
+        "sections_hash": "b3_12782488431e7223cb3b169e10f9f45d914077f9c4e02300b4dceca9890b649a"
       }
     }
   },
-  "hash": "b3_8e1b38400b1cc6b797fc743458d6900fb75a3d16f3dc10009aa8702d63bb78fe",
-  "updated_at": "2026-11-25T13:32:07.747508511Z"
+  "hash": "b3_4e980a5751db460335c739d473766932106fa383766ea53891b0dd8dc9981e1b",
+  "updated_at": "2026-11-27T17:02:50.655252948Z"
 }
