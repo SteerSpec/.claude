@@ -1,0 +1,25 @@
+name: Rule reference drift
+
+# validate.yml checks citations against the rules pinned in rule-refs.lock.json.
+# This weekly run checks them against the latest strspc-rules release, so a rule
+# that changes or retires after a template cites it turns this run red instead of
+# going unnoticed. Fix: re-read each citing line in templates/, adjust it, then
+# `python3 scripts/check-rule-refs.py --update` and commit the lock.
+
+on:
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Cited rules match the latest release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 -I scripts/check-rule-refs.py --latest
