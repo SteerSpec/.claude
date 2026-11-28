@@ -16,7 +16,7 @@
         "hash": "b3_805db662cdaf11138d57998f2fe15186cfa42b16e0e9ada6319645947d2b68dd",
         "timestamp": "2026-11-27T17:20:30.243542431Z",
         "pr_number": 398,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -30,6 +30,13 @@
         "pr_number": 142,
         "pr_status": "merged",
         "previous_version": "1.0.0"
+      },
+      "pr-title": {
+        "version": "1.0.0",
+        "hash": "b3_8fe596587c3742498fdc11c0811f62d3f5ef6d4bbd4f9b06a81ba4805aa7b53c",
+        "timestamp": "2026-11-28T14:16:00.538768107Z",
+        "pr_number": 412,
+        "pr_status": "open"
       }
     },
     "SteerSpec/strspc-cloud": {
@@ -38,7 +45,7 @@
         "hash": "b3_0c7fd2c3703acbe49499590e9d121875fd5dd4ac292f46c4945b1a9d2437818f",
         "timestamp": "2026-11-27T17:20:37.759102273Z",
         "pr_number": 40,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -60,7 +67,7 @@
         "hash": "b3_4ab33e57def2a128ab72c4f940cc852ada3f4de54e061e80fbd692ae606737e7",
         "timestamp": "2026-11-27T17:20:36.81723307Z",
         "pr_number": 423,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -74,6 +81,13 @@
         "pr_number": 142,
         "pr_status": "merged",
         "previous_version": "1.0.0"
+      },
+      "pr-title": {
+        "version": "1.0.0",
+        "hash": "b3_8fe596587c3742498fdc11c0811f62d3f5ef6d4bbd4f9b06a81ba4805aa7b53c",
+        "timestamp": "2026-11-28T14:16:01.889398329Z",
+        "pr_number": 425,
+        "pr_status": "open"
       }
     },
     "SteerSpec/strspc-pr-approval": {
@@ -82,7 +96,7 @@
         "hash": "b3_09c5c47ed07549283a18f185256ee4f4e18b70418bdd2ed02c7b0ed7b4a31d30",
         "timestamp": "2026-11-27T17:20:38.771163843Z",
         "pr_number": 32,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -103,7 +117,7 @@
         "hash": "b3_68d6d452e87aec27fbb6686ea88c3b777ef36b97f639cad6da5a6b7aa31c81fc",
         "timestamp": "2026-11-27T17:20:19.46384841Z",
         "pr_number": 222,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -117,7 +131,7 @@
         "hash": "b3_0c7fd2c3703acbe49499590e9d121875fd5dd4ac292f46c4945b1a9d2437818f",
         "timestamp": "2026-11-27T17:20:20.560207246Z",
         "pr_number": 223,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -131,6 +145,13 @@
         "pr_number": 86,
         "pr_status": "merged",
         "previous_version": "1.0.0"
+      },
+      "pr-title": {
+        "version": "1.0.0",
+        "hash": "b3_8fe596587c3742498fdc11c0811f62d3f5ef6d4bbd4f9b06a81ba4805aa7b53c",
+        "timestamp": "2026-11-28T14:15:58.334029484Z",
+        "pr_number": 229,
+        "pr_status": "open"
       }
     },
     "SteerSpec/strspc-spec": {
@@ -139,7 +160,7 @@
         "hash": "b3_bd9c0d43deeb74ed7433cccb05be0f9c00efc165ca360a732e22b09a4c3e4683",
         "timestamp": "2026-11-27T17:20:27.491140023Z",
         "pr_number": 74,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -161,7 +182,7 @@
         "hash": "b3_204e18c2f06264f111d824adb66e707e39655eb5c31ecb3061f274bf7bf95e73",
         "timestamp": "2026-11-27T17:20:28.482339593Z",
         "pr_number": 287,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
@@ -175,23 +196,33 @@
         "pr_number": 112,
         "pr_status": "merged",
         "previous_version": "1.0.0"
+      },
+      "pr-title": {
+        "version": "1.0.0",
+        "hash": "b3_8fe596587c3742498fdc11c0811f62d3f5ef6d4bbd4f9b06a81ba4805aa7b53c",
+        "timestamp": "2026-11-28T14:15:53.54496551Z"
       }
     },
     "SteerSpec/strspc-www": {
       "claude-md": {
         "version": "1.0.3",
-        "hash": "b3_6f3b134d465223f7d1ba07c23d89dcb134099ad651c3caf47266561222c201c6",
-        "timestamp": "2026-11-27T17:20:18.975944235Z",
+        "hash": "b3_d9e57c6a3f2947727ea4fcb97b4c7c59364d3d6d76cfead314d4d4fe2a739d46",
+        "timestamp": "2026-11-28T14:15:54.000447112Z",
         "pr_number": 316,
-        "pr_status": "open",
+        "pr_status": "merged",
         "previous_version": "1.0.2",
         "sections": [
           "org-standards"
         ],
         "sections_hash": "b3_742776293e8b0c425367375238d7601eca5e44d6319b1cdc55917389a3d7634e"
+      },
+      "pr-title": {
+        "version": "1.0.0",
+        "hash": "b3_8fe596587c3742498fdc11c0811f62d3f5ef6d4bbd4f9b06a81ba4805aa7b53c",
+        "timestamp": "2026-11-28T14:15:51.64842986Z"
       }
     }
   },
-  "hash": "b3_a1e8e8030fd8158204f96463a1cc2da22e6e8cd64152d73c931639499b088ef6",
-  "updated_at": "2026-11-27T17:20:38.771263313Z"
+  "hash": "b3_6ff00a9b60bd4f817eb329b490e728ef61ce66b8b7411c3a0b35f790ea88adf5",
+  "updated_at": "2026-11-28T14:16:01.889559542Z"
 }
