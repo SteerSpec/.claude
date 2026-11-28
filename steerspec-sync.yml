@@ -37,6 +37,17 @@ templates:
     destination: .github/dependabot.yml
     strategy: full-replace
 
+  # The required pr-title check, pinned by SHA (SteerSpec/.github#34). It runs
+  # under pull_request_target with a token, so a movable tag must not decide
+  # what runs. full-replace keeps one copy for every repo that has this check;
+  # repos that check titles another way are excluded under targets.overrides.
+  - id: pr-title
+    version: "1.0.0"
+    type: config
+    source: templates/pr-title.yml
+    destination: .github/workflows/pr-title.yml
+    strategy: full-replace
+
   # The four agents in agents/ are delivered by the strspc-agents plugin from
   # this marketplace. Syncing them as files as well would open four more PRs
   # per repo for a duplicate copy, so they stay plugin-only until the owner
@@ -59,10 +70,16 @@ targets:
 
   # These repos keep an npm ecosystem (and repo-specific settings) in their own
   # dependabot.yml, which the full-replace dependabot template would overwrite.
+  #
+  # pr-title goes only to the repos whose required title check is pr-title.yml
+  # (rules, manager, CLI, sync, www). The others check titles another way: a
+  # job in ci.yml (spec, pr-approval), commitlint (homebrew-tap), or not at all
+  # (pr-review, cloud).
   overrides:
     - repo: SteerSpec/strspc-pr-review
       exclude_templates:
         - dependabot
+        - pr-title
     - repo: SteerSpec/strspc-www
       exclude_templates:
         - dependabot
@@ -71,11 +88,19 @@ targets:
     - repo: SteerSpec/strspc-pr-approval
       exclude_templates:
         - dependabot
+        - pr-title
     # A Homebrew tap has no rules/ realm, so the org-standards CLAUDE.md block
     # does not apply; it still takes the dependabot template.
     - repo: SteerSpec/homebrew-tap
       exclude_templates:
         - claude-md
+        - pr-title
+    - repo: SteerSpec/strspc-spec
+      exclude_templates:
+        - pr-title
+    - repo: SteerSpec/strspc-cloud
+      exclude_templates:
+        - pr-title
 
 sync:
   concurrency: 3
